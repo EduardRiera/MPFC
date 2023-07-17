@@ -10,11 +10,11 @@
     <layoutxml>
       <grid name="resultset" jump="pfc_name" select="1" icon="1" preview="1">
         <row name="result" id="pfc_queryid">
-          <cell name="pfc_name" width="115" imageproviderfunctionname="" imageproviderwebresource="$webresource:" />
+          <cell name="pfc_name" width="120" imageproviderfunctionname="" imageproviderwebresource="$webresource:" />
           <cell name="pfc_accountid" width="205" />
           <cell name="pfc_applicantid" width="150" />
           <cell name="pfc_summary" width="200" imageproviderfunctionname="" imageproviderwebresource="$webresource:" />
-          <cell name="statuscode" width="100" imageproviderfunctionname="Query.Functions.BusinessLogic.populateImageValuesinGrid" imageproviderwebresource="$webresource:pfc_query.view" />
+          <cell name="statuscode" width="110" imageproviderfunctionname="Query.Functions.BusinessLogic.populateImageValuesinGrid" imageproviderwebresource="$webresource:pfc_query.view" />
           <cell name="createdon" width="128" />
           <cell name="pfc_acceptance_date" width="130" />
           <cell name="pfc_sent_date" width="130" />
@@ -33,6 +33,8 @@
           <attribute name="pfc_applicantid" />
           <attribute name="pfc_acceptance_date" />
           <attribute name="pfc_sent_date" />
+          <attribute name="createdon" />
+          <attribute name="ownerid" />
           <order attribute="pfc_name" descending="true" />
           <filter type="and">
             <condition attribute="pfc_webstatus" operator="in">
@@ -40,11 +42,10 @@
               <value>470000000</value>
               <value>470000003</value>
               <value>470000002</value>
+              <value>470000005</value>
             </condition>
           </filter>
           <attribute name="pfc_queryid" />
-          <attribute name="createdon" />
-          <attribute name="ownerid" />
         </entity>
       </fetch>
     </fetchxml>

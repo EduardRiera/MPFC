@@ -55,12 +55,16 @@ var Query;
                         populateTooltip = "Pendent Consultora";
                         break;
                     case 470000012:
-                        populateimageValues = "pfc_circleblack";
+                        populateimageValues = "pfc_circleorange";
                         populateTooltip = "Pendent DGT";
                         break;
                     case 470000014:
                         populateimageValues = "pfc_circleyellow";
                         populateTooltip = "Anàlisi Resposta";
+                        break;
+                    case 470000015:
+                        populateimageValues = "pfc_circleyellow";
+                        populateTooltip = "Resposta Enviada";
                         break;
                 }
                 var returnArrayValues = [populateimageValues, populateTooltip];

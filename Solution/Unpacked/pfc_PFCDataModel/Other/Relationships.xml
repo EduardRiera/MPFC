@@ -698,12 +698,12 @@
   <EntityRelationship Name="pfc_pfc_procedure_supervisorid_systemuser" />
   <EntityRelationship Name="pfc_pfc_query_accountid_account" />
   <EntityRelationship Name="pfc_pfc_query_applicantid_contact" />
-  <EntityRelationship Name="pfc_pfc_query_consultid2_pfc_query" />
   <EntityRelationship Name="pfc_pfc_query_dgt_accountId_account" />
   <EntityRelationship Name="pfc_pfc_query_dgt_applicantid_contact" />
   <EntityRelationship Name="pfc_pfc_query_dgt_managerid_systemuser" />
   <EntityRelationship Name="pfc_pfc_query_dgt_pfc_historyofstates_querydgtid" />
   <EntityRelationship Name="pfc_pfc_query_dgt_queryid_pfc_query" />
+  <EntityRelationship Name="pfc_pfc_query_query2id_pfc_query" />
   <EntityRelationship Name="pfc_pfc_query_responsableid_systemuser" />
   <EntityRelationship Name="pfc_pfc_query_validatorid_systemuser" />
   <EntityRelationship Name="pfc_pfc_receivedresponse_assignedid_con" />

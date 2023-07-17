@@ -49,11 +49,11 @@
                         </labels>
                         <control id="pfc_input_chanel" classid="{3EF39988-22BB-4F0B-BBBE-64B5A3748AEE}" datafieldname="pfc_input_chanel" disabled="false" uniqueid="{de194754-4343-7a37-14d9-b0a123924ccb}" />
                       </cell>
-                      <cell id="{95e2c401-2d9e-4c2b-a0ea-ec46b544c628}" locklevel="0" colspan="1" rowspan="1">
+                      <cell id="{0c9e0cc7-cbb9-3b86-e050-055b0304172c}" showlabel="true" locklevel="0">
                         <labels>
                           <label description="Origen" languagecode="1027" />
                         </labels>
-                        <control id="pfc_consultid2" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="pfc_consultid2" disabled="false">
+                        <control id="pfc_query2id" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="pfc_query2id" disabled="false">
                           <parameters>
                             <DisableMru>true</DisableMru>
                           </parameters>
@@ -678,34 +678,27 @@
                   </labels>
                   <rows>
                     <row>
-                      <cell id="{b33e7b2a-1474-6144-0819-0dd103e0a748}" showlabel="true" colspan="1" auto="false" rowspan="6">
+                      <cell locklevel="0" id="{2e815139-989d-44d3-ab41-03dafbb20c0d}" rowspan="4" colspan="1" auto="false">
                         <labels>
                           <label description="Consultes relacionades" languagecode="1027" />
                         </labels>
-                        <control id="Consultesrelacionats" classid="{E7A81278-8635-4d9e-8D4D-59480B391C5B}" indicationOfSubgrid="true" uniqueid="{128a84a4-a3b6-459a-a474-145a0dd11b08}">
+                        <control indicationOfSubgrid="true" id="Consultesrelacionats" classid="{E7A81278-8635-4D9E-8D4D-59480B391C5B}">
                           <parameters>
-                            <ViewId>{406FEDEF-60AC-ED11-AAD0-000D3ADF7052}</ViewId>
-                            <IsUserView>false</IsUserView>
-                            <RelationshipName>pfc_pfc_query_consultid2_pfc_query</RelationshipName>
-                            <TargetEntityType>pfc_query</TargetEntityType>
+                            <RecordsPerPage>4</RecordsPerPage>
                             <AutoExpand>Fixed</AutoExpand>
                             <EnableQuickFind>false</EnableQuickFind>
                             <EnableViewPicker>false</EnableViewPicker>
+                            <EnableChartPicker>true</EnableChartPicker>
+                            <ChartGridMode>All</ChartGridMode>
+                            <TargetEntityType>pfc_query</TargetEntityType>
+                            <ViewId>{406FEDEF-60AC-ED11-AAD0-000D3ADF7052}</ViewId>
                             <ViewIds>{406FEDEF-60AC-ED11-AAD0-000D3ADF7052}</ViewIds>
-                            <EnableJumpBar>false</EnableJumpBar>
-                            <ChartGridMode>Grid</ChartGridMode>
+                            <RelationshipName>pfc_pfc_query_query2id_pfc_query</RelationshipName>
                             <VisualizationId>{F8BAE707-1B6B-ED11-9561-000D3AB3F701}</VisualizationId>
-                            <IsUserChart>false</IsUserChart>
-                            <EnableChartPicker>false</EnableChartPicker>
-                            <RecordsPerPage>4</RecordsPerPage>
-                            <HeaderColorCode>#EFBFBF</HeaderColorCode>
-                            <RelationshipRoleOrdinal>1</RelationshipRoleOrdinal>
                           </parameters>
                         </control>
                       </cell>
                     </row>
-                    <row />
-                    <row />
                     <row />
                     <row />
                     <row />

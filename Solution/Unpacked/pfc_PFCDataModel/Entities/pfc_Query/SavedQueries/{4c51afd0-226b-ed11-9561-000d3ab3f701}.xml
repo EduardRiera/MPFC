@@ -81,6 +81,8 @@
           <attribute name="traversedpath" />
           <attribute name="stageid" />
           <attribute name="pfc_enrollmentdepartmentid" />
+          <attribute name="pfc_objectofthequery" />
+          <attribute name="pfc_entityhead" />
           <order attribute="pfc_name" descending="false" />
           <filter type="and">
             <filter type="or">
@@ -89,13 +91,12 @@
                 <value>470000000</value>
                 <value>470000003</value>
                 <value>470000002</value>
+                <value>470000005</value>
               </condition>
               <condition attribute="pfc_webstatus" operator="null" />
             </filter>
           </filter>
           <attribute name="pfc_queryid" />
-          <attribute name="pfc_objectofthequery" />
-          <attribute name="pfc_entityhead" />
         </entity>
       </fetch>
     </fetchxml>

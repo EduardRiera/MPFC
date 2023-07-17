@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ImportExportXml version="9.2.23062.176" SolutionPackageVersion="9.2" languagecode="1027" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ImportExportXml version="9.2.23063.164" SolutionPackageVersion="9.2" languagecode="1027" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SolutionManifest>
     <UniqueName>pfc_PFCDataModel</UniqueName>
     <LocalizedNames>
@@ -144,6 +144,7 @@
       <RootComponent type="20" id="{c9da8451-1e72-ed11-9561-000d3ab3f701}" behavior="0" />
       <RootComponent type="20" id="{e08ab78c-3ce3-ed11-a7c7-000d3adf7052}" behavior="0" />
       <RootComponent type="20" id="{fc3d961f-146f-ed11-9561-000d3ab3f701}" behavior="0" />
+      <RootComponent type="29" id="{019d0dff-8924-ee11-9cbc-000d3adea4bc}" behavior="0" />
       <RootComponent type="29" id="{0e2e696b-b115-4010-8bc9-be1dddf2795c}" behavior="0" />
       <RootComponent type="29" id="{0fb38b87-212b-4c29-8aab-ec42e3f8a74b}" behavior="0" />
       <RootComponent type="29" id="{14d8a151-cfdb-4e62-b9e1-11c508c3f3ba}" behavior="0" />
@@ -6402,15 +6403,15 @@
         <Dependent type="60" displayName="Portals: Create Contact" parentDisplayName="Contacte" id="{f1d0f86e-43bf-ed11-83ff-000d3adea4bc}" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="66" schemaName="Intelligence.BusinessCardReaderControl.BusinessCardReader" displayName="Intelligence.BusinessCardReaderControl.BusinessCardReader" solution="BaseCustomControlsCore (9.0.2306.2012)" />
+        <Required type="66" schemaName="Intelligence.BusinessCardReaderControl.BusinessCardReader" displayName="Intelligence.BusinessCardReaderControl.BusinessCardReader" solution="BaseCustomControlsCore (9.0.2306.3015)" />
         <Dependent type="60" displayName="Portals: Condicions Acceptance" parentDisplayName="Contacte" id="{dd8f253c-cfc3-ed11-83ff-000d3adf727d}" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="66" schemaName="Intelligence.BusinessCardReaderControl.BusinessCardReader" displayName="Intelligence.BusinessCardReaderControl.BusinessCardReader" solution="BaseCustomControlsCore (9.0.2306.2012)" />
+        <Required type="66" schemaName="Intelligence.BusinessCardReaderControl.BusinessCardReader" displayName="Intelligence.BusinessCardReaderControl.BusinessCardReader" solution="BaseCustomControlsCore (9.0.2306.3015)" />
         <Dependent type="60" displayName="Portals: Create Contact" parentDisplayName="Contacte" id="{f1d0f86e-43bf-ed11-83ff-000d3adea4bc}" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="66" schemaName="MscrmControls.Activity.HyperlinkControlWithImage" displayName="MscrmControls.Activity.HyperlinkControlWithImage" solution="msdynce_ActivitiesPatch (9.0.23055.230530002)" />
+        <Required type="66" schemaName="MscrmControls.Activity.HyperlinkControlWithImage" displayName="MscrmControls.Activity.HyperlinkControlWithImage" solution="msdynce_ActivitiesPatch (9.0.23063.230615001)" />
         <Dependent type="60" displayName="Cita" parentDisplayName="Cita" id="{549a8aa3-c349-4ab9-8bac-4873fa9a7a5c}" />
       </MissingDependency>
       <MissingDependency>
@@ -6438,27 +6439,27 @@
         <Dependent type="60" displayName="Formació" id="{8f7b69e6-a9da-ed11-a7c7-000d3adf7052}" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="66" schemaName="MscrmControls.FieldControls.ToggleControl" displayName="MscrmControls.FieldControls.ToggleControl" solution="BaseCustomControlsCore (9.0.2306.2012)" />
+        <Required type="66" schemaName="MscrmControls.FieldControls.ToggleControl" displayName="MscrmControls.FieldControls.ToggleControl" solution="BaseCustomControlsCore (9.0.2306.3015)" />
         <Dependent type="60" displayName="Incidència" parentDisplayName="Curs" id="{4c09de7a-aa1e-40cb-a1e5-b0c0f27035b4}" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="66" schemaName="MscrmControls.FieldControls.ToggleControl" displayName="MscrmControls.FieldControls.ToggleControl" solution="BaseCustomControlsCore (9.0.2306.2012)" />
+        <Required type="66" schemaName="MscrmControls.FieldControls.ToggleControl" displayName="MscrmControls.FieldControls.ToggleControl" solution="BaseCustomControlsCore (9.0.2306.3015)" />
         <Dependent type="60" displayName="Cita" parentDisplayName="Cita" id="{549a8aa3-c349-4ab9-8bac-4873fa9a7a5c}" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="66" schemaName="MscrmControls.FieldControls.ToggleControl" displayName="MscrmControls.FieldControls.ToggleControl" solution="BaseCustomControlsCore (9.0.2306.2012)" />
+        <Required type="66" schemaName="MscrmControls.FieldControls.ToggleControl" displayName="MscrmControls.FieldControls.ToggleControl" solution="BaseCustomControlsCore (9.0.2306.3015)" />
         <Dependent type="60" displayName="Esdeveniment formulario principal" parentDisplayName="Curs" id="{6894d73a-a4bd-ed11-83fe-000d3adf727d}" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="66" schemaName="MscrmControls.FieldControls.ToggleControl" displayName="MscrmControls.FieldControls.ToggleControl" solution="BaseCustomControlsCore (9.0.2306.2012)" />
+        <Required type="66" schemaName="MscrmControls.FieldControls.ToggleControl" displayName="MscrmControls.FieldControls.ToggleControl" solution="BaseCustomControlsCore (9.0.2306.3015)" />
         <Dependent type="60" displayName="Informació" parentDisplayName="BPF Query DGT" id="{7248f2a2-0f1d-445f-9d6c-c3b25bb854fe}" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="66" schemaName="MscrmControls.FieldControls.ToggleControl" displayName="MscrmControls.FieldControls.ToggleControl" solution="BaseCustomControlsCore (9.0.2306.2012)" />
+        <Required type="66" schemaName="MscrmControls.FieldControls.ToggleControl" displayName="MscrmControls.FieldControls.ToggleControl" solution="BaseCustomControlsCore (9.0.2306.3015)" />
         <Dependent type="60" displayName="Informació" parentDisplayName="BPF Query" id="{cd2a3e2f-7745-4fc3-8e05-c586cc931201}" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="66" schemaName="MscrmControls.FlipSwitch.FlipSwitchControl" displayName="MscrmControls.FlipSwitch.FlipSwitchControl" solution="CustomControlsCore (9.2.23062.00176)" />
+        <Required type="66" schemaName="MscrmControls.FlipSwitch.FlipSwitchControl" displayName="MscrmControls.FlipSwitch.FlipSwitchControl" solution="CustomControlsCore (9.2.23063.00164)" />
         <Dependent type="60" displayName="Informació" parentDisplayName="Formulari de màrqueting" id="{24f9d1de-40f9-4e8e-b17c-11bf9cd027f7}" />
       </MissingDependency>
       <MissingDependency>
