@@ -67,7 +67,7 @@ jobs:
         publish-changes: true
 
     - name: upload-paportal action
-      uses: microsoft/powerplatform-actions/upload-paportal@0
+      uses: microsoft/powerplatform-actions/upload-paportal@v0
       with:
         environment-url: ${{vars.ENVIRONMENT_URL}}
         app-id: ${{vars.CLIENT_ID}}
