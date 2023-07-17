@@ -25,7 +25,7 @@ jobs:
       with:
         environment-url: ${{vars.ENVIRONMENT_URL}}
         app-id: ${{vars.CLIENT_ID}}
-        client-secret: ${{ vars.CLIENT_SECRET }}
+        client-secret: ${{ secrets.CLIENT_SECRET }}
         tenant-id: ${{vars.TENANT_ID}}
 
     # - name: backup-environment action
@@ -33,7 +33,7 @@ jobs:
       # with:
         # environment-url: ${{vars.ENVIRONMENT_URL}}
         # app-id: ${{vars.CLIENT_ID}}
-        # client-secret: ${{ vars.CLIENT_SECRET }}
+        # client-secret: ${{ secrets.CLIENT_SECRET }}
         # tenant-id: ${{vars.TENANT_ID}}
         # backup-label: 'Before deploying ${{github.ref_name}}'
 
@@ -42,7 +42,7 @@ jobs:
       # with:
         # environment-url: ${{vars.ENVIRONMENT_URL}}
         # app-id: ${{vars.CLIENT_ID}}
-        # client-secret: ${{ vars.CLIENT_SECRET }}
+        # client-secret: ${{ secrets.CLIENT_SECRET }}
         # tenant-id: ${{vars.TENANT_ID}}
         # solution-file: ${{vars.SOLUTION_NAME}}
         # force-overwrite: true
@@ -53,7 +53,7 @@ jobs:
       # with:
         # environment-url: ${{vars.ENVIRONMENT_URL}}
         # app-id: ${{vars.CLIENT_ID}}
-        # client-secret: ${{ vars.CLIENT_SECRET }}
+        # client-secret: ${{ secrets.CLIENT_SECRET }}
         # tenant-id: ${{vars.TENANT_ID}}
         # upload-path: ${{vars.PORTAL_PATH}}
         # deployment-profile: pre
@@ -63,7 +63,7 @@ jobs:
       # with:
         # environment-url: ${{vars.ENVIRONMENT_URL}}
         # app-id: ${{vars.CLIENT_ID}}
-        # client-secret: ${{ vars.CLIENT_SECRET }}
+        # client-secret: ${{ secrets.CLIENT_SECRET }}
         # tenant-id: ${{vars.TENANT_ID}}
         # backup-label: 'After deploying ${{github.ref_name}}'
 
