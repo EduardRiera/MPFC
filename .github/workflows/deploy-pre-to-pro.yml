@@ -23,20 +23,20 @@ jobs:
         $tag = git describe --tags --match "PRE*" --abbrev=0
         echo "last-tag=$tag" >> $env:GITHUB_ENV
 
-    - name: Check if HEAD contains tag
-      shell: powershell
-      run: |
-         $COMMIT_TAGS=$(git tag --points-at HEAD)
+    #- name: Check if HEAD contains tag
+      #shell: powershell
+      #run: |
+         #$COMMIT_TAGS=$(git tag --points-at HEAD)
          
-         $VERSIONTAG =$(echo $COMMIT_TAGS | Select-String -Pattern "v[0-9]+\.[0-9]+\.[0-9]+" | Select-Object -First 1)
-         echo "version-tag=$VERSIONTAG" >> $env:GITHUB_ENV
+         #$VERSIONTAG =$(echo $COMMIT_TAGS | Select-String -Pattern "v[0-9]+\.[0-9]+\.[0-9]+" | Select-Object -First 1)
+         #echo "version-tag=$VERSIONTAG" >> $env:GITHUB_ENV
 
-         if ($COMMIT_TAGS -like "*${{env.last-tag}}*") {
-           Write-Host "Detalls versió: $COMMIT_TAGS"
-         } else {
-           Write-Host "Aquesta versió ($COMMIT_TAGS) no coincideix amb la ultima instalada a PRE (${{env.last-tag}})."
-           exit 1
-         }
+         #if ($COMMIT_TAGS -like "*${{env.last-tag}}*") {
+           #Write-Host "Detalls versió: $COMMIT_TAGS"
+         #} else {
+           #Write-Host "Aquesta versió ($COMMIT_TAGS) no coincideix amb la ultima instalada a PRE (${{env.last-tag}})."
+           #exit 1
+         #}
          
     - name: who-am-i action
       uses: microsoft/powerplatform-actions/who-am-i@v0
