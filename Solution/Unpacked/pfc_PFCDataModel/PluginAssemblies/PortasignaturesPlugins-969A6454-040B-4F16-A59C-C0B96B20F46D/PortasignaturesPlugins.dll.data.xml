@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PluginAssembly FullName="Portasignatures.Plugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8c5bdd215925265f" PluginAssemblyId="969a6454-040b-4f16-a59c-c0b96b20f46d" CustomizationLevel="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <IsolationMode>2</IsolationMode>
+  <SourceType>0</SourceType>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <FileName>/PluginAssemblies/PortasignaturesPlugins-969A6454-040B-4F16-A59C-C0B96B20F46D/PortasignaturesPlugins.dll</FileName>
+  <PluginTypes>
+    <PluginType AssemblyQualifiedName="Portasignatures.Plugins.Action.PortaFirmasCreateSignerOrApproverAction, Portasignatures.Plugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8c5bdd215925265f" PluginTypeId="45846c73-b519-46d0-9672-605d84297ed5" Name="Portasignatures.Plugins.Action.PortaFirmasCreateSignerOrApproverAction">
+      <FriendlyName>7065e462-5ea7-4fde-9b44-2c9db13bac21</FriendlyName>
+    </PluginType>
+    <PluginType AssemblyQualifiedName="Portasignatures.Plugins.Action.PortaFirmasGetUsersAction, Portasignatures.Plugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8c5bdd215925265f" PluginTypeId="7154a489-f42c-4d49-bb09-766e4aa0dc08" Name="Portasignatures.Plugins.Action.PortaFirmasGetUsersAction">
+      <FriendlyName>abc5ecbd-9f9f-47d5-9234-c0f9fec4000a</FriendlyName>
+    </PluginType>
+    <PluginType AssemblyQualifiedName="Portasignatures.Plugins.Action.PortaFirmasUploadDocumentAction, Portasignatures.Plugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8c5bdd215925265f" PluginTypeId="c581deec-4617-486e-84a0-8225f2644d53" Name="Portasignatures.Plugins.Action.PortaFirmasUploadDocumentAction">
+      <FriendlyName>ae60c21b-f870-4cb5-a40e-0e85c9e636f3</FriendlyName>
+    </PluginType>
+    <PluginType AssemblyQualifiedName="Portasignatures.Plugins.Action.PortasignaturesCreateRequesterAction, Portasignatures.Plugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8c5bdd215925265f" PluginTypeId="e3296f6c-ca63-4056-a899-435500864e24" Name="Portasignatures.Plugins.Action.PortasignaturesCreateRequesterAction">
+      <FriendlyName>b666dfe6-4044-4695-91d2-793435648222</FriendlyName>
+    </PluginType>
+  </PluginTypes>
+</PluginAssembly>

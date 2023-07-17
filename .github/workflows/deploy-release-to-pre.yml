@@ -1,0 +1,76 @@
+name: deploy-release-to-pre
+#   deploy the published release to PRE D365 environment
+
+on:
+  release:
+      types: [published]
+    
+permissions:
+  contents: write
+  
+jobs:
+  deploy-release-to-pre:
+    runs-on: windows-latest
+    environment: PRE        
+
+    steps:
+    - name: checkout action
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        lfs: true
+
+    - name: who-am-i action
+      uses: microsoft/powerplatform-actions/who-am-i@v0
+      with:
+        environment-url: ${{vars.ENVIRONMENT_URL}}
+        app-id: ${{vars.CLIENT_ID}}
+        client-secret: ${{ vars.CLIENT_SECRET }}
+        tenant-id: ${{vars.TENANT_ID}}
+
+    # - name: backup-environment action
+      # uses: microsoft/powerplatform-actions/backup-environment@v0
+      # with:
+        # environment-url: ${{vars.ENVIRONMENT_URL}}
+        # app-id: ${{vars.CLIENT_ID}}
+        # client-secret: ${{ vars.CLIENT_SECRET }}
+        # tenant-id: ${{vars.TENANT_ID}}
+        # backup-label: 'Before deploying ${{github.ref_name}}'
+
+    # - name: import-managed-solution action
+      # uses: microsoft/powerplatform-actions/import-solution@v0
+      # with:
+        # environment-url: ${{vars.ENVIRONMENT_URL}}
+        # app-id: ${{vars.CLIENT_ID}}
+        # client-secret: ${{ vars.CLIENT_SECRET }}
+        # tenant-id: ${{vars.TENANT_ID}}
+        # solution-file: ${{vars.SOLUTION_NAME}}
+        # force-overwrite: true
+        # publish-changes: true
+
+    # - name: upload-paportal action
+      # uses: microsoft/powerplatform-actions/upload-paportal@v0
+      # with:
+        # environment-url: ${{vars.ENVIRONMENT_URL}}
+        # app-id: ${{vars.CLIENT_ID}}
+        # client-secret: ${{ vars.CLIENT_SECRET }}
+        # tenant-id: ${{vars.TENANT_ID}}
+        # upload-path: ${{vars.PORTAL_PATH}}
+        # deployment-profile: pre
+
+    # - name: backup-environment action
+      # uses: microsoft/powerplatform-actions/backup-environment@v0
+      # with:
+        # environment-url: ${{vars.ENVIRONMENT_URL}}
+        # app-id: ${{vars.CLIENT_ID}}
+        # client-secret: ${{ vars.CLIENT_SECRET }}
+        # tenant-id: ${{vars.TENANT_ID}}
+        # backup-label: 'After deploying ${{github.ref_name}}'
+
+    - name: generate-pre-tag action
+      run: echo "pre-tag=PRE-$(date +%Y%m%d%H%M%S)" >> $env:GITHUB_ENV
+
+    - name: set-pre-tag action  
+      run: |
+        git tag ${{env.pre-tag}}
+        git push origin ${{env.pre-tag}}
