@@ -51,7 +51,7 @@ jobs:
       # with:
         # environment-url: ${{vars.ENVIRONMENT_URL}}
         # app-id: ${{vars.CLIENT_ID}}
-        # client-secret: ${{ vars.CLIENT_SECRET }}
+        # client-secret: ${{ secrets.CLIENT_SECRET }}
         # tenant-id: ${{vars.TENANT_ID}}
         # backup-label: 'Before deploying ${{ env.version-tag }}'
 
@@ -81,7 +81,7 @@ jobs:
       # with:
         # environment-url: ${{vars.ENVIRONMENT_URL}}
         # app-id: ${{vars.CLIENT_ID}}
-        # client-secret: ${{ vars.CLIENT_SECRET }}
+        # client-secret: ${{ secrets.CLIENT_SECRET }}
         # tenant-id: ${{vars.TENANT_ID}}
         # backup-label: 'After deploying ${{ steps.extract-tag.outputs.version-tag }}'
 
