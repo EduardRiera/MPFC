@@ -104,6 +104,6 @@ jobs:
       uses: octokit/request-action@v2.x
       with:
         route: PATCH /repos/${{github.repository}}/releases/${{env.releaseid}}
-        body: "Release ${{github.ref_name}}\n\nIncluded Plugins:\n${{env.plugininfo}}\n\nInstalled on PRE"
+        body: "Release ${{github.ref_name}}\n\nIncluded Plugins\n${{env.plugininfo}}\n\nInstalled on PRE"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
