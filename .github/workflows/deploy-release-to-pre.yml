@@ -68,17 +68,6 @@ jobs:
         # tenant-id: ${{vars.TENANT_ID}}
         # backup-label: 'After deploying ${{github.ref_name}}'
 
-    - name: get-plugins-info
-      shell: powershell
-      run: |
-         echo "plugininfo<<EOF" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-         Get-ChildItem -Path "${{vars.SOLUTION_DETAIL_FOLDER}}/${{vars.SOLUTION_NAME}}/PluginAssemblies" -Recurse -Filter *.dll | ForEach-Object {
-              $dll = Get-ItemProperty -Path $_.FullName -Name VersionInfo
-              $output = "{0}|{1}|{2}" -f $_.Name, $dll.VersionInfo.InternalName, $dll.VersionInfo.FileVersion
-              echo "$output" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-         }
-         echo "EOF" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
     - name: generate-pre-tag action
       run: echo "pre-tag=PRE-$(date +%Y%m%d%H%M%S)" >> $env:GITHUB_ENV
 
@@ -94,11 +83,41 @@ jobs:
         route: GET /repos/${{github.repository}}/releases/tags/${{github.ref_name}}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
-    # Generate env variables to easily access the contribution data
+
     - name: Store contribution data in env vars
       run: | 
           echo "releaseid=${{ fromJson(steps.get-release.outputs.data).id }}" >> $env:GITHUB_ENV
+
+    - name: set-markdown
+      shell: powershell
+      run: |
+         echo "markdown<<EOF" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+         $output = "# Release {0}" -f ${{github.ref_name}}
+         echo "$output" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+         
+         Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+         $output = "Included Plugins"
+         echo "$output" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+         $output = "Fichero | Nombre | Version"
+         echo "$output" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+         
+         $output = "--- | --- | ---"
+         echo "$output" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+         Get-ChildItem -Path "${{vars.SOLUTION_DETAIL_FOLDER}}/${{vars.SOLUTION_NAME}}/PluginAssemblies" -Recurse -Filter *.dll | ForEach-Object {
+              $dll = Get-ItemProperty -Path $_.FullName -Name VersionInfo
+              $output = "{0}|{1}|{2}" -f $_.Name, $dll.VersionInfo.InternalName, $dll.VersionInfo.FileVersion
+              echo "$output" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+         }
+
+         Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+         $output = "Installed on ${{env.pre-tag}} by ${{github.event.workflow_run.id}}"
+         echo "$output" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+         echo "EOF" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
 
     - name: Update Release
       uses: octokit/request-action@v2.x
@@ -106,13 +125,6 @@ jobs:
         route: PATCH /repos/${{github.repository}}/releases/${{env.releaseid}}
         body: |
           |
-          Release ${{github.ref_name}}
-          
-          Included Plugins
-          Fichero | Nombre | Version
-          --- | --- | ---           
-          ${{env.plugininfo}}
-          
-          Installed on PRE
+          ${{env.markdown}}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}      
