@@ -114,7 +114,8 @@ jobs:
          $output = " "
          echo "$output" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
-         $output = "Installed on ${{env.pre-tag}} by ${{github.event.workflow_run.id}}"
+         $output = "Installed on ${{env.pre-tag}} by [run ${{github.run_id}}](https://github.com/EduardRiera/MPFC/actions/runs/${{github.run_id}})"
+        
          echo "$output" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
          echo "EOF" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
