@@ -88,13 +88,11 @@ jobs:
     - name: Store contribution data in env vars
       run: | 
           echo "releaseid=${{ fromJson(steps.get-release.outputs.data).id }}" >> $GITHUB_ENV
-          echo "${{steps.get-release.outputs.data}}"
-          echo "currentbody=${{ fromJson(steps.get-release.outputs.data).body }}" >> $GITHUB_ENV
 
     - name: Update Release
       uses: octokit/request-action@v2.x
       with:
         route: PATCH /repos/${{github.repository}}/releases/${{env.releaseid}}
-        body: "${{ env.currentbody}}<br>New release body text."
+        body: "New release body text."
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
