@@ -93,7 +93,7 @@ jobs:
       run: |
          echo "markdown<<EOF" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
-         $output = "# Release {0}" -f ${{github.ref_name}}
+         $output = "# Release ${{github.ref_name}}"
          echo "$output" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
          
          Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
