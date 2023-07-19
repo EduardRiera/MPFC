@@ -106,11 +106,11 @@ jobs:
       with:
         route: PATCH /repos/${{github.repository}}/releases/${{env.releaseid}}
         body: |
-          # Release ${{github.ref_name}}
+          Release ${{github.ref_name}}
           
-          ## Included Plugins:
+          Included Plugins:
           {{env.plugininfo | toJSON}}
          
-          ## Installed on PRE
+          Installed on PRE
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
