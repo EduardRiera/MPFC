@@ -109,7 +109,7 @@ jobs:
           Release ${{github.ref_name}}
           
           Included Plugins:
-          ${{ env.plugininfo | split("\n") | map('trim') | join('\n') | toJSON }}
+          ${{ toJSON(env.plugininfo) }}
          
           Installed on PRE
       env:
