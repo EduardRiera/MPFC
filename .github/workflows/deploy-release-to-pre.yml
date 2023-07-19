@@ -80,7 +80,7 @@ jobs:
       id: get-release
       uses: octokit/request-action@v2.x
       with:
-        route: GET /repos/:owner/:repo/releases/tags/${{github.ref_name}}
+        route: GET /repos/${{github.repository_owner}}/${{github.repository}}/releases/tags/${{github.ref_name}}
         owner: ${{ github.repository_owner }}
         repo: ${{ github.repository }}
       env:
@@ -89,7 +89,7 @@ jobs:
     - name: Update Release
       uses: octokit/request-action@v2.x
       with:
-        route: PATCH /repos/:owner/:repo/releases/:release_id
+        route: PATCH /repos/{owner}/{repo}/releases/:release_id
         owner: ${{ github.repository_owner }}
         repo: ${{ github.repository }}
         release_id: ${{ steps.get-release.outputs.data.id }}
