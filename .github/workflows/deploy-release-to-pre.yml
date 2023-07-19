@@ -71,13 +71,13 @@ jobs:
     - name: get-plugins-info
       shell: powershell
       run: |
-         echo "plugininfo<<EOF" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append    
+         echo "plugininfo<<EOF`n" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append -NoNewline
          Get-ChildItem -Path "${{vars.SOLUTION_DETAIL_FOLDER}}/${{vars.SOLUTION_NAME}}/PluginAssemblies" -Recurse -Filter *.dll | ForEach-Object {
               $dll = Get-ItemProperty -Path $_.FullName -Name VersionInfo
-              $output = "{0,-40} {1,-40} {2}" -f $_.Name, $dll.VersionInfo.InternalName, $dll.VersionInfo.FileVersion
-              echo "$output" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append    
+              $output = "{0,-40} {1,-40} {2}`n" -f $_.Name, $dll.VersionInfo.InternalName, $dll.VersionInfo.FileVersion
+              echo "$output" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append  -NoNewline
          }
-         echo "EOF" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append    
+         echo "EOF`n" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append -NoNewline
 
     - name: generate-pre-tag action
       run: echo "pre-tag=PRE-$(date +%Y%m%d%H%M%S)" >> $env:GITHUB_ENV
