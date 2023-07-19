@@ -92,7 +92,7 @@ jobs:
     - name: get-plugins-info
       shell: powershell
       run: |
-         Get-ChildItem -Path "C:\Users\eduard.riera\code\MPFC\Solution\Unpacked\pfc_PFCDataModel\PluginAssemblies" -Recurse -Filter *.dll | ForEach-Object {
+         Get-ChildItem -Path "${{vars.SOLUTION_DETAIL_FOLDER}}\${{vars.SOLUTION_NAME}}\PluginAssemblies" -Recurse -Filter *.dll | ForEach-Object {
               $dll = Get-ItemProperty -Path $_.FullName -Name VersionInfo
               $output += "{0,-40} {1,-40} {2}`n" -f $_.Name, $dll.VersionInfo.InternalName, $dll.VersionInfo.FileVersion
          }
