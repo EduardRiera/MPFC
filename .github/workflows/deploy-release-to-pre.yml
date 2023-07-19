@@ -21,13 +21,13 @@ jobs:
         fetch-depth: 0
         lfs: true
 
-    - name: who-am-i action
-      uses: microsoft/powerplatform-actions/who-am-i@v0
-      with:
-        environment-url: ${{vars.ENVIRONMENT_URL}}
-        app-id: ${{vars.CLIENT_ID}}
-        client-secret: ${{ secrets.CLIENT_SECRET }}
-        tenant-id: ${{vars.TENANT_ID}}
+    #- name: who-am-i action
+      #uses: microsoft/powerplatform-actions/who-am-i@v0
+      #with:
+       # environment-url: ${{vars.ENVIRONMENT_URL}}
+        #app-id: ${{vars.CLIENT_ID}}
+        #client-secret: ${{ secrets.CLIENT_SECRET }}
+        #tenant-id: ${{vars.TENANT_ID}}
 
     # - name: backup-environment action
       # uses: microsoft/powerplatform-actions/backup-environment@v0
@@ -80,9 +80,7 @@ jobs:
       id: get-release
       uses: octokit/request-action@v2.x
       with:
-        route: GET /repos/{repo}/releases/tags/{tag-name}
-        repo: ${{ github.repository }}
-        tag-name: ${{github.ref_name}}
+        route: GET /repos/${{github.repository}}/releases/tags/${{github.ref_name}}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
@@ -90,14 +88,13 @@ jobs:
     - name: Store contribution data in env vars
       run: | 
           echo "releaseid=${{ fromJson(steps.get-release.outputs.data).id }}" >> $GITHUB_ENV
+          echo "${{fromJson(steps.get-release.outputs.data)}}"
           echo "currentbody=${{ fromJson(steps.get-release.outputs.data).body }}" >> $GITHUB_ENV
 
     - name: Update Release
       uses: octokit/request-action@v2.x
       with:
-        route: PATCH /repos/{repo}/releases/{releaseid}
-        repo: ${{ github.repository }}
-        releaseid: ${{ env.releaseid }}
+        route: PATCH /repos/${{github.repository}}/releases/${{env.releaseid}}
         body: "${{ env.currentbody}}<br>New release body text."
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
