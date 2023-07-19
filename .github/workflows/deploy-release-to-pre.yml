@@ -87,7 +87,7 @@ jobs:
     # Generate env variables to easily access the contribution data
     - name: Store contribution data in env vars
       run: | 
-          echo "releaseid=${{ fromJson(steps.get-release.outputs.data).id }}" >> $GITHUB_ENV
+          echo "releaseid=${{ fromJson(steps.get-release.outputs.data).id }}" >> $env:GITHUB_ENV
 
     - name: Update Release
       uses: octokit/request-action@v2.x
