@@ -74,7 +74,7 @@ jobs:
          echo "plugininfo<<EOF" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
          Get-ChildItem -Path "${{vars.SOLUTION_DETAIL_FOLDER}}/${{vars.SOLUTION_NAME}}/PluginAssemblies" -Recurse -Filter *.dll | ForEach-Object {
               $dll = Get-ItemProperty -Path $_.FullName -Name VersionInfo
-              $output = "{0,-40} {1,-40} {2}" -f $_.Name, $dll.VersionInfo.InternalName, $dll.VersionInfo.FileVersion
+              $output = "{0}|{1}|{2}" -f $_.Name, $dll.VersionInfo.InternalName, $dll.VersionInfo.FileVersion
               echo "$output" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
          }
          echo "EOF" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
@@ -104,10 +104,12 @@ jobs:
       uses: octokit/request-action@v2.x
       with:
         route: PATCH /repos/${{github.repository}}/releases/${{env.releaseid}}
-        body: |
+        body: >
           Release ${{github.ref_name}}
           
           Included Plugins
+          Fichero | Nombre | Version
+          --- | --- | ---           
           ${{env.plugininfo}}
           
           Installed on PRE
