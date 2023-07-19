@@ -100,8 +100,6 @@ jobs:
       run: | 
           echo "releaseid=${{ fromJson(steps.get-release.outputs.data).id }}" >> $env:GITHUB_ENV
 
-"Release v1.2.0\n\nIncluded Plugins:\n${{ env.plugininfo }}\n\nInstalled on PRE"
-
     - name: Update Release
       uses: octokit/request-action@v2.x
       with:
