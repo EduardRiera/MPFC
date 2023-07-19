@@ -80,19 +80,24 @@ jobs:
       id: get-release
       uses: octokit/request-action@v2.x
       with:
-        route: GET /repos/${{github.repository}}/releases/tags/${{github.ref_name}}
-        owner: ${{ github.repository_owner }}
+        route: GET /repos/{repo}/releases/tags/{tag-name}
         repo: ${{ github.repository }}
+        tag-name: ${{github.ref_name}}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    # Generate env variables to easily access the contribution data
+    - name: Store contribution data in env vars
+      run: | 
+          echo "releaseid=${{ fromJson(steps.get-release.outputs.data).id }}" >> $GITHUB_ENV
+          echo "currentbody=${{ fromJson(steps.get-release.outputs.data).body }}" >> $GITHUB_ENV
 
     - name: Update Release
       uses: octokit/request-action@v2.x
       with:
-        route: PATCH /repos/${{github.repository}}/releases/${{ steps.get-release.outputs.data.id }}
-        owner: ${{ github.repository_owner }}
+        route: PATCH /repos/{repo}/releases/{releaseid}
         repo: ${{ github.repository }}
-        release_id: ${{ steps.get-release.outputs.data.id }}
-        body: "${{ fromJson(steps.get-release.outputs.data).id }}<br>New release body text."
+        releaseid: ${{ env.releaseid }}
+        body: "${{ env.currentbody}}<br>New release body text."
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
