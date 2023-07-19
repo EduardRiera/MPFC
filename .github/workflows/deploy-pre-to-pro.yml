@@ -1,4 +1,5 @@
 name: deploy-pre-to-pro
+run-name: Deploy ${{github.ref_name}} to PRO by @${{ github.actor }}
 #   deploy last PRE deployed release to PRO D365 environment.
 
 on:
@@ -23,20 +24,20 @@ jobs:
         $tag = git describe --tags --match "PRE*" --abbrev=0
         echo "last-tag=$tag" >> $env:GITHUB_ENV
 
-    #- name: Check if HEAD contains tag
-      #shell: powershell
-      #run: |
-         #$COMMIT_TAGS=$(git tag --points-at HEAD)
+    - name: Check if HEAD contains tag
+      shell: powershell
+      run: |
+         $COMMIT_TAGS=$(git tag --points-at HEAD)
          
-         #$VERSIONTAG =$(echo $COMMIT_TAGS | Select-String -Pattern "v[0-9]+\.[0-9]+\.[0-9]+" | Select-Object -First 1)
-         #echo "version-tag=$VERSIONTAG" >> $env:GITHUB_ENV
+         $VERSIONTAG =$(echo $COMMIT_TAGS | Select-String -Pattern "v[0-9]+\.[0-9]+\.[0-9]+" | Select-Object -First 1)
+         echo "version-tag=$VERSIONTAG" >> $env:GITHUB_ENV
 
-         #if ($COMMIT_TAGS -like "*${{env.last-tag}}*") {
-           #Write-Host "Detalls versió: $COMMIT_TAGS"
-         #} else {
-           #Write-Host "Aquesta versió ($COMMIT_TAGS) no coincideix amb la ultima instalada a PRE (${{env.last-tag}})."
-           #exit 1
-         #}
+         if ($COMMIT_TAGS -like "*${{env.last-tag}}*") {
+           Write-Host "Detalls versió: $COMMIT_TAGS"
+         } else {
+           Write-Host "Aquesta versió ($COMMIT_TAGS) no coincideix amb la ultima instalada a PRE (${{env.last-tag}})."
+           exit 1
+         }
          
     - name: who-am-i action
       uses: microsoft/powerplatform-actions/who-am-i@v0
@@ -46,14 +47,14 @@ jobs:
          client-secret: ${{ secrets.CLIENT_SECRET }}
          tenant-id: ${{vars.TENANT_ID}}      
 
-    - name: backup-environment action
-      uses: microsoft/powerplatform-actions/backup-environment@v0
-      with:
-        environment-url: ${{vars.ENVIRONMENT_URL}}
-        app-id: ${{vars.CLIENT_ID}}
-        client-secret: ${{ secrets.CLIENT_SECRET }}
-        tenant-id: ${{vars.TENANT_ID}}
-        backup-label: 'Before deploying ${{ env.version-tag }}'
+    # - name: backup-environment action
+    #  uses: microsoft/powerplatform-actions/backup-environment@v0
+    #  with:
+    #    environment-url: ${{vars.ENVIRONMENT_URL}}
+    #    app-id: ${{vars.CLIENT_ID}}
+    #    client-secret: ${{ secrets.CLIENT_SECRET }}
+    #    tenant-id: ${{vars.TENANT_ID}}
+    #    backup-label: 'Before deploying ${{ env.version-tag }}'
 
     #- name: import-managed-solution action
       #uses: microsoft/powerplatform-actions/import-solution@v0
@@ -66,15 +67,15 @@ jobs:
         #force-overwrite: true
         #publish-changes: true
 
-    - name: upload-paportal action
-      uses: microsoft/powerplatform-actions/upload-paportal@v0
-      with:
-        environment-url: ${{vars.ENVIRONMENT_URL}}
-        app-id: ${{vars.CLIENT_ID}}
-        client-secret: ${{ secrets.CLIENT_SECRET }}
-        tenant-id: ${{vars.TENANT_ID}}      
-        upload-path: ${{vars.PORTAL_PATH}}
-        deployment-profile: pro
+    #- name: upload-paportal action
+    #  uses: microsoft/powerplatform-actions/upload-paportal@v0
+    #  with:
+    #    environment-url: ${{vars.ENVIRONMENT_URL}}
+    #    app-id: ${{vars.CLIENT_ID}}
+    #    client-secret: ${{ secrets.CLIENT_SECRET }}
+    #    tenant-id: ${{vars.TENANT_ID}}      
+    #    upload-path: ${{vars.PORTAL_PATH}}
+    #    deployment-profile: pro
 
     #- name: backup-environment action
       #uses: microsoft/powerplatform-actions/backup-environment@v0
@@ -92,4 +93,41 @@ jobs:
       run: |
         git tag ${{env.pro-tag}}
         git push origin ${{env.pro-tag}}
-     
+    
+    - name: get-releaseID
+      id: get-release
+      uses: octokit/request-action@v2.x
+      with:
+        route: GET /repos/${{github.repository}}/releases/tags/${{env.version-tag}}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Store contribution data in env vars
+      run: | 
+          echo "releaseid=${{ fromJson(steps.get-release.outputs.data).id }}" >> $env:GITHUB_ENV
+    
+    - name: set-markdown
+      shell: powershell
+      run: |
+         echo "markdown<<EOF" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+         $output = " "
+         echo "$output" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+         $output = "Installed on ${{env.pro-tag}} by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})"
+        
+         echo "$output" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+         echo "EOF" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+    
+    - name: Update Release
+      uses: octokit/request-action@v2.x
+      with:
+        route: PATCH /repos/${{github.repository}}/releases/${{env.releaseid}}
+        body: |
+          |
+          ${{fromJson(steps.get-release.outputs.data).body }}
+          
+          ${{env.markdown}}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}           
