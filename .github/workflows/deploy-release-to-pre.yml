@@ -109,8 +109,8 @@ jobs:
           # Release ${{github.ref_name}}
           
           ## Included Plugins:
-          {{env.plugininfo}}
-          
+          {{env.plugininfo | toJSON}}
+         
           ## Installed on PRE
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
