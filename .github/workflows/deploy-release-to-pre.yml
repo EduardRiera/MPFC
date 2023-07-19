@@ -99,38 +99,20 @@ jobs:
     - name: Store contribution data in env vars
       run: | 
           echo "releaseid=${{ fromJson(steps.get-release.outputs.data).id }}" >> $env:GITHUB_ENV
-          
-    - name: Generate Markdown string
-      shell: powershell
-      run: |
-          $markdown = @"
-          # This is a heading
-
-          This is some **bold** text and some _italic_ text.
-
-          Here's a list:
-          - Item 1
-          - Item 2
-          - Item 3
-
-          Here's a code block:
-
-          ```
-          function helloWorld() {
-            console.log("Hello, world!");
-          }
-          ```
-
-          That's all for now.
-
-          "@
-          echo "MARKDOWN=$markdown" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
 
     - name: Update Release
       uses: octokit/request-action@v2.x
       with:
         route: PATCH /repos/${{github.repository}}/releases/${{env.releaseid}}
-        body: ${{env.MARDOWN}}
+        body: |
+          |
+          Release ${{github.ref_name}}
+          
+          Included Plugins
+          Fichero | Nombre | Version
+          --- | --- | ---           
+          ${{env.plugininfo}}
+          
+          Installed on PRE
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}      
