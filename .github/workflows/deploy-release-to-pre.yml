@@ -68,6 +68,15 @@ jobs:
         # tenant-id: ${{vars.TENANT_ID}}
         # backup-label: 'After deploying ${{github.ref_name}}'
 
+    - name: get-plugins-info
+      shell: powershell
+      run: |
+         Get-ChildItem -Path "${{vars.SOLUTION_DETAIL_FOLDER}}\${{vars.SOLUTION_NAME}}\PluginAssemblies" -Recurse -Filter *.dll | ForEach-Object {
+              $dll = Get-ItemProperty -Path $_.FullName -Name VersionInfo
+              $output += "{0,-40} {1,-40} {2}`n" -f $_.Name, $dll.VersionInfo.InternalName, $dll.VersionInfo.FileVersion
+         }
+         echo "plugininfo=$output" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append    
+
     - name: generate-pre-tag action
       run: echo "pre-tag=PRE-$(date +%Y%m%d%H%M%S)" >> $env:GITHUB_ENV
 
@@ -89,14 +98,6 @@ jobs:
       run: | 
           echo "releaseid=${{ fromJson(steps.get-release.outputs.data).id }}" >> $env:GITHUB_ENV
 
-    - name: get-plugins-info
-      shell: powershell
-      run: |
-         Get-ChildItem -Path "${{vars.SOLUTION_DETAIL_FOLDER}}\${{vars.SOLUTION_NAME}}\PluginAssemblies" -Recurse -Filter *.dll | ForEach-Object {
-              $dll = Get-ItemProperty -Path $_.FullName -Name VersionInfo
-              $output += "{0,-40} {1,-40} {2}`n" -f $_.Name, $dll.VersionInfo.InternalName, $dll.VersionInfo.FileVersion
-         }
-         echo "plugininfo=$output" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append    
 
     - name: Update Release
       uses: octokit/request-action@v2.x
