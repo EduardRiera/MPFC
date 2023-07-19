@@ -1,5 +1,5 @@
 name: deploy-release-to-pre
-run-name: Deploy ${{github.ref_name}} to PRE by @${{ github.actor }} on $(date +'%Y-%m-%d %H:%M:%S')
+run-name: Deploy ${{github.ref_name}} to PRE by @${{ github.actor }} on ${{ env.TIMESTAMP }}
 #   deploy the published release to PRE D365 environment
 
 on:
@@ -89,10 +89,10 @@ jobs:
     - name: Update Release
       uses: octokit/request-action@v2.x
       with:
-        route: PATCH /repos/{repo}/releases/:release_id
+        route: PATCH /repos/${{github.repository}}/releases/${{ steps.get-release.outputs.data.id }}
         owner: ${{ github.repository_owner }}
         repo: ${{ github.repository }}
         release_id: ${{ steps.get-release.outputs.data.id }}
-        body: "${{ steps.get-release.outputs.data.id }}<br>New release body text."
+        body: "${{ fromJson(steps.get-release.outputs.data).id }}<br>New release body text."
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
