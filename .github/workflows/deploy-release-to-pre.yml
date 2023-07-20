@@ -76,29 +76,25 @@ jobs:
         git tag ${{env.pre-tag}}
         git push origin ${{env.pre-tag}}
         
-    - name: write-markdown
+    - name: update-release-notes
       shell: powershell
+      env:
+        GH_TOKEN: ${{ github.token }}      
       run: |
-         $plugins = ""
-         Get-ChildItem -Path "${{vars.SOLUTION_DETAIL_FOLDER}}/${{vars.SOLUTION_NAME}}/PluginAssemblies" -Recurse -Filter *.dll | ForEach-Object {
-              $dll = Get-ItemProperty -Path $_.FullName -Name VersionInfo
-              $plugins += "{0}|{1}|{2}`n" -f $_.Name, $dll.VersionInfo.InternalName, $dll.VersionInfo.FileVersion
-         }
-         
          $markdown = @"
             # Release ${{github.ref_name}}
           
             ## Included Plugins
-            $plugins
+            Fichero | Nombre | Version 
+            --- | --- | ---
+            (Get-ChildItem -Path "${{vars.SOLUTION_DETAIL_FOLDER}}/${{vars.SOLUTION_NAME}}/PluginAssemblies" -Recurse -Filter *.dll | 
+                ForEach-Object {
+                  $dll = Get-ItemProperty -Path $_.FullName -Name VersionInfo
+                  "{0}|{1}|{2}" -f $_.Name, $dll.VersionInfo.InternalName, $dll.VersionInfo.FileVersion
+                }) -join '`n'
             
             Installed on ${{env.pre-tag}} by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
          "@
-         
-         $markdown | Out-File -Encoding UTF8 "temp.md"      
 
-    - name: update-release-notes
-      env:
-        GH_TOKEN: ${{ github.token }}      
-      run: | 
-          gh release edit ${{github.ref_name}} --notes-file "temp.md"
+         gh release edit ${{github.ref_name}} --notes "$markdown"
 
