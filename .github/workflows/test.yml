@@ -28,6 +28,10 @@ jobs:
          "@
          $previous
          "separador"
-         $markdown 
+         $markdown
+         "separador2"
+         $($previous)
+         "separador3"
+         $($markdown)
          gh release edit v1.3.16 --notes "$markdown"
          
