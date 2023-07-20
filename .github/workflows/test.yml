@@ -1,9 +1,7 @@
 name: pac-org-who
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   build:
