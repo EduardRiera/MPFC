@@ -26,6 +26,8 @@ jobs:
          $previous
          Installed on pro by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
          "@
+         $previous
+         "separador"
          $markdown 
          gh release edit v1.3.16 --notes "$markdown"
          
