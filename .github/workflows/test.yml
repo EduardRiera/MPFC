@@ -7,10 +7,15 @@ on:
 permissions:
   contents: write
 jobs:
-  deploy-pre-to-pro:
+  test:
     runs-on: windows-latest
 
     steps:
+    - name: checkout action
+      uses: actions/checkout@v3
+      with:
+        lfs: true
+        
     - name: update-release-notes
       shell: powershell
       env:
