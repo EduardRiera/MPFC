@@ -99,12 +99,9 @@ jobs:
       env:
         GH_TOKEN: ${{ github.token }}      
       run: |
-         $currentbody = $(gh release view ${{github.ref_name}} --json body --jq ".body")
-         $currentbody
          $markdown = @"
-            $currentbody
-            
-            Installed on ${{env.pro-tag}} by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
+         $(gh release view ${{github.ref_name}} --json body --jq ".body")
+         Installed on ${{env.pro-tag}} by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
          "@
 
          gh release edit ${{github.ref_name}} --notes "$markdown"
