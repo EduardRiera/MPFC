@@ -23,8 +23,11 @@ jobs:
       run: |
          $previous = $(gh release view v1.3.16 --json body --jq ".body")
          $markdown = @"
-         $previous
+         $($previous)
          Installed on pro by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
+         ${previous}
+         sep
+         ${$previous}
          "@
          $previous
          "separador"
