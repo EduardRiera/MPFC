@@ -9,7 +9,6 @@ permissions:
 jobs:
   deploy-pre-to-pro:
     runs-on: windows-latest
-    environment: PRO        
 
     steps:
     - name: update-release-notes
