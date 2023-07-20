@@ -100,10 +100,13 @@ jobs:
         GH_TOKEN: ${{ github.token }}      
       run: |
          $previous = $(gh release view ${{github.ref_name}} --json body --jq ".body")
+         $previous
          $markdown = @"
-         ${previous}
+         $previous
          Installed on ${{env.pro-tag}} by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
          "@
-
+         $($previous)
+         una altra
+         ${$previous}
          gh release edit ${{github.ref_name}} --notes "$markdown"
          
