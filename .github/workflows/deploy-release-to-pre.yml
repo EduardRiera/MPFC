@@ -98,8 +98,6 @@ jobs:
           # Release ${{github.ref_name}}
           
           ## Included Plugins
-          Fichero | Nombre | Version
-          --- | --- | ---
           ${{env.plugins-mdtable}}
 
           Installed on ${{env.pre-tag}} by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
