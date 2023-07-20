@@ -21,19 +21,9 @@ jobs:
       env:
         GH_TOKEN: ${{ github.token }}      
       run: |
-         $markdown = $(gh release view v1.3.16 --json body --jq ".body")
-         $markdown
-         "con ()"
-         $($markdown)
-         "con {}"
-         ${markdown}
-         $markdown += @"
+         $markdown = @"
+         $(gh release view v1.3.16 --json body --jq ".body")
          Installed on pro by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
          "@
-         $markdown
-         "con ()"
-         $($markdown)
-         "con {}"
-         ${markdown}
          gh release edit v1.3.16 --notes "$markdown"
          
