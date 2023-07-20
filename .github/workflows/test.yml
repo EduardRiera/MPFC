@@ -1,0 +1,30 @@
+name: test_powershell
+run-name: Deploy ${{github.ref_name}} to PRO by @${{ github.actor }}
+#   deploy last PRE deployed release to PRO D365 environment.
+
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  deploy-pre-to-pro:
+    runs-on: windows-latest
+    environment: PRO        
+
+    steps:
+    - name: update-release-notes
+      shell: powershell
+      env:
+        GH_TOKEN: ${{ github.token }}      
+      run: |
+         $previous = $(gh release view v1.3.16 --json body --jq ".body")
+         $previous
+         $markdown = @"
+         $previous
+         Installed on pro by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
+         "@
+         $($previous)
+         una altra
+         ${$previous}
+         gh release edit v1.3.16 --notes "$markdown"
+         
