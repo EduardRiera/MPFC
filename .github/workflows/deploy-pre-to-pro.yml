@@ -100,7 +100,7 @@ jobs:
         GH_TOKEN: ${{ github.token }}      
       run: |
          $markdown = @"
-         $(gh release view ${{github.ref_name}} --json body --jq ".body")
+         ${$(gh release view ${{github.ref_name}} --json body --jq ".body")}
          Installed on ${{env.pro-tag}} by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
          "@
 
