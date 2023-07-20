@@ -75,7 +75,6 @@ jobs:
       run: |
         git tag ${{env.pre-tag}}
         git push origin ${{env.pre-tag}}
-        gh release view ${{github.ref_name}}
         
     - name: read-plugins-info
       shell: powershell
@@ -94,6 +93,7 @@ jobs:
 
     - name: update-release-notes
       env:
+        GH_TOKEN: ${{ github.token }}      
         markdown: |
           # Release ${{github.ref_name}}
           
