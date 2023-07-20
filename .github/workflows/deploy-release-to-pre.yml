@@ -76,32 +76,29 @@ jobs:
         git tag ${{env.pre-tag}}
         git push origin ${{env.pre-tag}}
         
-    - name: read-plugins-info
+    - name: write-markdown
       shell: powershell
       run: |
-         echo "plugins-mdtable<<EOF" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-         $output = "Fichero | Nombre | Version"
-         echo "$output" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-         $output = "--- | --- | ---"
-         echo "$output" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+         $plugins = ""
          Get-ChildItem -Path "${{vars.SOLUTION_DETAIL_FOLDER}}/${{vars.SOLUTION_NAME}}/PluginAssemblies" -Recurse -Filter *.dll | ForEach-Object {
               $dll = Get-ItemProperty -Path $_.FullName -Name VersionInfo
-              $output = "{0}|{1}|{2}" -f $_.Name, $dll.VersionInfo.InternalName, $dll.VersionInfo.FileVersion
-              echo "$output" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+              $plugins += "{0}|{1}|{2}`n" -f $_.Name, $dll.VersionInfo.InternalName, $dll.VersionInfo.FileVersion
          }
-         echo "EOF" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+         
+         $markdown = @"
+            # Release ${{github.ref_name}}
+          
+            ## Included Plugins
+            $plugins
+            
+            Installed on ${{env.pre-tag}} by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
+         "@
+         
+         $markdown | Out-File -Encoding UTF8 "temp.md"      
 
     - name: update-release-notes
       env:
         GH_TOKEN: ${{ github.token }}      
-        markdown: |
-          # Release ${{github.ref_name}}
-          
-          ## Included Plugins
-          ${{env.plugins-mdtable}}
-
-          Installed on ${{env.pre-tag}} by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
-          
       run: | 
           gh release edit ${{github.ref_name}} --notes "${{env.markdown}}"
 
