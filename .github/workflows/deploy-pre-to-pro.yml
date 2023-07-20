@@ -94,40 +94,16 @@ jobs:
         git tag ${{env.pro-tag}}
         git push origin ${{env.pro-tag}}
     
-    - name: get-releaseID
-      id: get-release
-      uses: octokit/request-action@v2.x
-      with:
-        route: GET /repos/${{github.repository}}/releases/tags/${{env.version-tag}}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Store contribution data in env vars
-      run: | 
-          echo "releaseid=${{ fromJson(steps.get-release.outputs.data).id }}" >> $env:GITHUB_ENV
-    
-    - name: set-markdown
+    - name: update-release-notes
       shell: powershell
-      run: |
-         echo "markdown<<EOF" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
-         $output = " "
-         echo "$output" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
-         $output = "Installed on ${{env.pro-tag}} by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})"
-        
-         echo "$output" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
-         echo "EOF" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-    
-    - name: Update Release
-      uses: octokit/request-action@v2.x
-      with:
-        route: PATCH /repos/${{github.repository}}/releases/${{env.releaseid}}
-        body: |
-          |
-          ${{fromJson(steps.get-release.outputs.data).body }}
-          
-          ${{env.markdown}}
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}           
+        GH_TOKEN: ${{ github.token }}      
+      run: |
+         $markdown = @"
+            $(gh release view ${{github.ref_name}} --json body --jq ".body")
+
+            Installed on ${{env.pro-tag}} by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
+         "@
+
+         gh release edit ${{github.ref_name}} --notes "$markdown"
+         
