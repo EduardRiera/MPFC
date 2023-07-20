@@ -103,5 +103,5 @@ jobs:
           Installed on ${{env.pre-tag}} by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
           
       run: | 
-          gh release edit ${{github.ref_name}} --notes ${{env.markdown}}
+          gh release edit ${{github.ref_name}} --notes "${{env.markdown}}"
 
