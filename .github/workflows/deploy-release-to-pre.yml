@@ -91,7 +91,7 @@ jobs:
                 ForEach-Object {
                   $dll = Get-ItemProperty -Path $_.FullName -Name VersionInfo
                   "{0}|{1}|{2}" -f $_.Name, $dll.VersionInfo.InternalName, $dll.VersionInfo.FileVersion
-                }) -join '`n')
+                }) -join "`n")
             
             Installed on ${{env.pre-tag}} by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
          "@
