@@ -21,7 +21,7 @@ jobs:
         fetch-depth: 0
         lfs: true
 
-    - name: check-managed-solution action
+    - name: check-unmanaged-solution action
       uses: microsoft/powerplatform-actions/check-solution@v0
       #if: ${{vars.FLAGS_CHECK == 1}}
       with:
@@ -29,7 +29,7 @@ jobs:
         app-id: ${{vars.CLIENT_ID}}
         client-secret: ${{ secrets.CLIENT_SECRET }}
         tenant-id: ${{vars.TENANT_ID}}
-        path: "${{vars.SOLUTION_RELEASE_FOLDER}}/${{vars.SOLUTION_NAME}}.zip"
+        path: "${{vars.SOLUTION_EXPORTED_FOLDER}}/${{vars.SOLUTION_NAME}}.zip"
         geo: "Europe"
         checker-logs-artifact-name: check-solution-log
         fail-on-analysis-error: false
