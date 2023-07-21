@@ -1,0 +1,29 @@
+name: test
+
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  deploy-pre-to-pro:
+    runs-on: windows-latest
+    environment: PRO        
+
+    steps:
+    - name: checkout action
+      uses: actions/checkout@v3
+      with:
+        lfs: true
+        
+    - name: who-am-i action
+      uses: microsoft/powerplatform-actions/who-am-i@v0
+      with:
+         environment-url: ${{vars.ENVIRONMENT_URL}}
+         app-id: ${{vars.CLIENT_ID}}
+         client-secret: ${{ secrets.CLIENT_SECRET }}
+         tenant-id: ${{vars.TENANT_ID}}      
+
+    - name: set-pro-tag action  
+      shell: cmd
+      run: |
+        dir /s /b "D:\a"
