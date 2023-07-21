@@ -7,7 +7,7 @@ permissions:
 jobs:
   deploy-pre-to-pro:
     runs-on: windows-latest
-    environment: PRO        
+    environment: MAIN        
 
     steps:
     - name: checkout action
