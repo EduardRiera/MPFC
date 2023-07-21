@@ -31,6 +31,7 @@ jobs:
 
     - name: backup-environment action
       uses: microsoft/powerplatform-actions/backup-environment@v0
+      if: ${{vars.FLAGS_BACKUP == 1}}
       with:
         environment-url: ${{vars.ENVIRONMENT_URL}}
         user-name: ${{ secrets.USER }}
@@ -42,6 +43,7 @@ jobs:
 
     - name: import-managed-solution action
       uses: microsoft/powerplatform-actions/import-solution@v0
+      if: ${{vars.FLAGS_SOLUTION == 1}}
       with:
         environment-url: ${{vars.ENVIRONMENT_URL}}
         app-id: ${{vars.CLIENT_ID}}
@@ -53,6 +55,7 @@ jobs:
 
     - name: upload-paportal action
       uses: microsoft/powerplatform-actions/upload-paportal@v0
+      if: ${{vars.FLAGS_PORTAL == 1}}
       with:
         environment-url: ${{vars.ENVIRONMENT_URL}}
         app-id: ${{vars.CLIENT_ID}}
@@ -61,8 +64,14 @@ jobs:
         upload-path: ${{vars.PORTAL_PATH}}
         deployment-profile: pre
 
+    - name: export-data  
+      if: ${{vars.FLAGS_DATA == 1}}
+      run: |
+        echo "Data exported"
+
     - name: backup-environment action
       uses: microsoft/powerplatform-actions/backup-environment@v0
+      if: ${{vars.FLAGS_BACKUP == 1}}
       with:
         environment-url: ${{vars.ENVIRONMENT_URL}}
         user-name: ${{ secrets.USER }}
@@ -97,7 +106,7 @@ jobs:
               "{0}|{1}|{2}" -f $_.Name, $dll.VersionInfo.InternalName, $dll.VersionInfo.FileVersion
             }) -join "`n")
          
-         Installed on ${{env.pre-tag}} by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
+         Installed on ${{env.pre-tag}} with (Backup=${{vars.FLAGS_BACKUP}}, Solution=${{vars.FLAGS_SOLUTION}}, Portal=${{vars.FLAGS_PORTAL}}, Data=${{vars.FLAGS_DATA}}) by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
          "@
 
          gh release edit ${{github.ref_name}} --notes "$markdown"
