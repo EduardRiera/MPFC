@@ -21,52 +21,56 @@ jobs:
         fetch-depth: 0
         lfs: true
 
-    #- name: who-am-i action
-      #uses: microsoft/powerplatform-actions/who-am-i@v0
-      #with:
-       # environment-url: ${{vars.ENVIRONMENT_URL}}
+    - name: who-am-i action
+      uses: microsoft/powerplatform-actions/who-am-i@v0
+      with:
+        environment-url: ${{vars.ENVIRONMENT_URL}}
+        app-id: ${{vars.CLIENT_ID}}
+        client-secret: ${{ secrets.CLIENT_SECRET }}
+        tenant-id: ${{vars.TENANT_ID}}
+
+    - name: backup-environment action
+      uses: microsoft/powerplatform-actions/backup-environment@v0
+      with:
+        environment-url: ${{vars.ENVIRONMENT_URL}}
+        user-name: ${{ secrets.USER }}
+        password-secret: ${{ secrets.PASSWORD }}
         #app-id: ${{vars.CLIENT_ID}}
         #client-secret: ${{ secrets.CLIENT_SECRET }}
-        #tenant-id: ${{vars.TENANT_ID}}
+        tenant-id: ${{vars.TENANT_ID}}
+        backup-label: 'Before deploying ${{github.ref_name}}'
 
-    # - name: backup-environment action
-      # uses: microsoft/powerplatform-actions/backup-environment@v0
-      # with:
-        # environment-url: ${{vars.ENVIRONMENT_URL}}
-        # app-id: ${{vars.CLIENT_ID}}
-        # client-secret: ${{ secrets.CLIENT_SECRET }}
-        # tenant-id: ${{vars.TENANT_ID}}
-        # backup-label: 'Before deploying ${{github.ref_name}}'
+    - name: import-managed-solution action
+      uses: microsoft/powerplatform-actions/import-solution@v0
+      with:
+        environment-url: ${{vars.ENVIRONMENT_URL}}
+        app-id: ${{vars.CLIENT_ID}}
+        client-secret: ${{ secrets.CLIENT_SECRET }}
+        tenant-id: ${{vars.TENANT_ID}}
+        solution-file: ${{vars.SOLUTION_NAME}}
+        force-overwrite: true
+        publish-changes: true
 
-    # - name: import-managed-solution action
-      # uses: microsoft/powerplatform-actions/import-solution@v0
-      # with:
-        # environment-url: ${{vars.ENVIRONMENT_URL}}
-        # app-id: ${{vars.CLIENT_ID}}
-        # client-secret: ${{ secrets.CLIENT_SECRET }}
-        # tenant-id: ${{vars.TENANT_ID}}
-        # solution-file: ${{vars.SOLUTION_NAME}}
-        # force-overwrite: true
-        # publish-changes: true
+    - name: upload-paportal action
+      uses: microsoft/powerplatform-actions/upload-paportal@v0
+      with:
+        environment-url: ${{vars.ENVIRONMENT_URL}}
+        app-id: ${{vars.CLIENT_ID}}
+        client-secret: ${{ secrets.CLIENT_SECRET }}
+        tenant-id: ${{vars.TENANT_ID}}
+        upload-path: ${{vars.PORTAL_PATH}}
+        deployment-profile: pre
 
-    # - name: upload-paportal action
-      # uses: microsoft/powerplatform-actions/upload-paportal@v0
-      # with:
-        # environment-url: ${{vars.ENVIRONMENT_URL}}
-        # app-id: ${{vars.CLIENT_ID}}
-        # client-secret: ${{ secrets.CLIENT_SECRET }}
-        # tenant-id: ${{vars.TENANT_ID}}
-        # upload-path: ${{vars.PORTAL_PATH}}
-        # deployment-profile: pre
-
-    # - name: backup-environment action
-      # uses: microsoft/powerplatform-actions/backup-environment@v0
-      # with:
-        # environment-url: ${{vars.ENVIRONMENT_URL}}
-        # app-id: ${{vars.CLIENT_ID}}
-        # client-secret: ${{ secrets.CLIENT_SECRET }}
-        # tenant-id: ${{vars.TENANT_ID}}
-        # backup-label: 'After deploying ${{github.ref_name}}'
+    - name: backup-environment action
+      uses: microsoft/powerplatform-actions/backup-environment@v0
+      with:
+        environment-url: ${{vars.ENVIRONMENT_URL}}
+        user-name: ${{ secrets.USER }}
+        password-secret: ${{ secrets.PASSWORD }}
+        #app-id: ${{vars.CLIENT_ID}}
+        #client-secret: ${{ secrets.CLIENT_SECRET }}
+        tenant-id: ${{vars.TENANT_ID}}
+        backup-label: 'After deploying ${{github.ref_name}}'
 
     - name: generate-pre-tag action
       run: echo "pre-tag=PRE-$(date +%Y%m%d%H%M%S)" >> $env:GITHUB_ENV
