@@ -24,7 +24,7 @@ jobs:
         $tag = git describe --tags --match "PRE*" --abbrev=0
         echo "last-tag=$tag" >> $env:GITHUB_ENV
 
-    - name: Check if HEAD contains tag
+    - name: check-versions
       shell: powershell
       run: |
          $COMMIT_TAGS=$(git tag --points-at HEAD)
@@ -49,6 +49,7 @@ jobs:
 
     - name: backup-environment action
       uses: microsoft/powerplatform-actions/backup-environment@v0
+      if: ${{vars.FLAGS_BACKUP == 1}}
       with:
         environment-url: ${{vars.ENVIRONMENT_URL}}
         user-name: ${{ secrets.USER }}
@@ -60,6 +61,7 @@ jobs:
 
     - name: import-managed-solution action
       uses: microsoft/powerplatform-actions/import-solution@v0
+      if: ${{vars.FLAGS_SOLUTION == 1}}
       with:
         environment-url: ${{vars.ENVIRONMENT_URL}}
         app-id: ${{vars.CLIENT_ID}}
@@ -69,8 +71,20 @@ jobs:
         force-overwrite: true
         publish-changes: true
 
+    - name: import-data
+      uses: microsoft/powerplatform-actions/import-data@v0
+      if: ${{vars.FLAGS_DATA == 1}}
+      with:
+        environment-url: ${{vars.ENVIRONMENT_URL}}
+        app-id: ${{vars.CLIENT_ID}}
+        client-secret: ${{ secrets.CLIENT_SECRET }}
+        tenant-id: ${{vars.TENANT_ID}}
+        data-file: "Data/Content/"
+        verbose: true
+
     - name: upload-paportal action
       uses: microsoft/powerplatform-actions/upload-paportal@v0
+      if: ${{vars.FLAGS_PORTAL == 1}}
       with:
         environment-url: ${{vars.ENVIRONMENT_URL}}
         app-id: ${{vars.CLIENT_ID}}
@@ -81,6 +95,7 @@ jobs:
 
     - name: backup-environment action
       uses: microsoft/powerplatform-actions/backup-environment@v0
+      if: ${{vars.FLAGS_BACKUP == 1}}
       with:
         environment-url: ${{vars.ENVIRONMENT_URL}}
         user-name: ${{ secrets.USER }}
@@ -106,7 +121,7 @@ jobs:
          $markdown = @"
          $((gh release view ${{github.ref_name}} --json body --jq ".body") -join "`n")
          
-         Installed on ${{env.pro-tag}} by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
+         Installed on ${{env.pro-tag}} with (Backup=${{vars.FLAGS_BACKUP}}, Solution=${{vars.FLAGS_SOLUTION}}, Portal=${{vars.FLAGS_PORTAL}}, Data=${{vars.FLAGS_DATA}}) by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
          "@
          
          gh release edit ${{github.ref_name}} --notes "$markdown"
