@@ -1,5 +1,5 @@
-name: deploy-release-to-pre
-run-name: Deploy ${{github.ref_name}} to PRE by @${{ github.actor }}
+name: checktest
+run-name: checktest
 #   deploy the published release to PRE D365 environment
 
 on:
