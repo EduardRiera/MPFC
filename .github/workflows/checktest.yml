@@ -11,7 +11,8 @@ permissions:
 jobs:
   deploy-release-to-pre:
     runs-on: windows-latest
-
+    environment: MAIN   
+    
     steps:
     - name: checkout action
       uses: actions/checkout@v3
