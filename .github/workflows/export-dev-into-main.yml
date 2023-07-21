@@ -1,4 +1,5 @@
 name: export-dev-into-main
+run-name: Push ${{vars.SOLUTION_NAME }} from DEV to MAIN by @${{ github.actor }}
 # Export solution from DEV D365 environment
 #  unpack it and commit into main branch
 
