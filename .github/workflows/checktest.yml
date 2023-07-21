@@ -41,14 +41,12 @@ jobs:
     - name: unzip-log
       shell: cmd
       run: |
-        dir /s /b /ad check-solution
+        dir
         
-      # unzip check-solution-log.zip
-
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v2
       if: false
       with:
         # Path to SARIF file relative to the root of the repository
-        sarif_file: results.sarif
+        sarif_file: check-solution-log
         category: powerplatform-check
