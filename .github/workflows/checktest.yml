@@ -37,15 +37,15 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: check-solution-log
+        path: check-solution-log
 
-    - name: unzip-log
+    - name: check-download
       shell: cmd
       run: |
-        dir
+        dir check-solution-log
         
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v2
-      if: false
       with:
         # Path to SARIF file relative to the root of the repository
         sarif_file: check-solution-log
