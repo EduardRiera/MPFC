@@ -26,6 +26,7 @@ jobs:
     - name: another-shell
       shell: cmd
       run: |
+        echo $GITHUB_WORKSPACE 
         echo %Path%
 
     - name: set-pac-cli-path
@@ -34,6 +35,8 @@ jobs:
         Set-Location "..\..\_actions\microsoft\powerplatform-actions\v0\dist\pac\tools"
         $newPath = (Get-Location).Path
         $oldPath = [Environment]::GetEnvironmentVariable('PATH', 'Machine');
+        $newPath
+        $oldPath
         [Environment]::SetEnvironmentVariable('PATH', "$oldPath;$newPath",'Machine');
 
     - name: another-shell
