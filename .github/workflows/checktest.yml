@@ -35,7 +35,7 @@ jobs:
 
     - name: dir
       run: |
-        dir
+        dir /s /b /ad
         dir CheckSolutionsLogs/*.*
 
     - name: Upload SARIF file
