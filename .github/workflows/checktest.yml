@@ -1,0 +1,46 @@
+name: deploy-release-to-pre
+run-name: Deploy ${{github.ref_name}} to PRE by @${{ github.actor }}
+#   deploy the published release to PRE D365 environment
+
+on:
+  workflow_dispatch:
+    
+permissions:
+  contents: write
+  
+jobs:
+  deploy-release-to-pre:
+    runs-on: windows-latest
+
+    steps:
+    - name: checkout action
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        lfs: true
+
+    - name: check-managed-solution action
+      uses: microsoft/powerplatform-actions/check-solution@v0
+      #if: ${{vars.FLAGS_CHECK == 1}}
+      with:
+        environment-url: ${{vars.ENVIRONMENT_URL}}
+        app-id: ${{vars.CLIENT_ID}}
+        client-secret: ${{ secrets.CLIENT_SECRET }}
+        tenant-id: ${{vars.TENANT_ID}}
+        path: "${{vars.SOLUTION_RELEASE_FOLDER}}/${{vars.SOLUTION_NAME}}.zip"
+        geo: "Europe"
+        checker-logs-artifact-name: "CheckSolutionsLogs/"
+        fail-on-analysis-error: false
+
+    - name: dir
+      run: |
+        dir
+        dir CheckSolutionsLogs/*.*
+
+    - name: Upload SARIF file
+      uses: github/codeql-action/upload-sarif@v2
+      if: false
+      with:
+        # Path to SARIF file relative to the root of the repository
+        sarif_file: results.sarif
+        category: powerplatform-check
