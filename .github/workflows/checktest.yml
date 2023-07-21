@@ -40,7 +40,10 @@ jobs:
         path: check-solution-log.zip
 
     - name: unzip-log
-      run: unzip check-solution-log.zip
+      shell: cmd
+      run: |
+        dir 
+        unzip check-solution-log.zip
 
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v2
