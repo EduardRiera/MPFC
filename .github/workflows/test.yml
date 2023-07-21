@@ -35,9 +35,9 @@ jobs:
         Set-Location "..\..\_actions\microsoft\powerplatform-actions\v0\dist\pac\tools"
         $newPath = (Get-Location).Path
         $oldPath = [Environment]::GetEnvironmentVariable('PATH', 'Machine');
-        $newPath
-        $oldPath
-        [Environment]::SetEnvironmentVariable('PATH', "$oldPath;$newPath",'Machine');
+        [Environment]::SetEnvironmentVariable('PATH', "$newPath;$oldPath",'Machine');
+        $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+        $env:Path
         Set-Location "${{github.workspace}}"
         pac help
 
