@@ -30,7 +30,7 @@ jobs:
         tenant-id: ${{vars.TENANT_ID}}
         path: "${{vars.SOLUTION_RELEASE_FOLDER}}/${{vars.SOLUTION_NAME}}.zip"
         geo: "Europe"
-        checker-logs-artifact-name: "CheckSolutionsLogs/"
+        checker-logs-artifact-name: "CheckSolutionsLogs"
         fail-on-analysis-error: false
 
     - name: dir
