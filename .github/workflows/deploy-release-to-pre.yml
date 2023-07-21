@@ -64,10 +64,6 @@ jobs:
         upload-path: ${{vars.PORTAL_PATH}}
         deployment-profile: pre
 
-    - name: export-data  
-      run: |
-        echo "Data exported"
-
     - name: import-data
       uses: microsoft/powerplatform-actions/import-data@v0
       if: ${{vars.FLAGS_DATA == 1}}
