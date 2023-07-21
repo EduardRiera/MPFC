@@ -48,3 +48,10 @@ jobs:
         refreshenv
         echo %Path%
         pac help
+        
+    - name: set-pac-cli-path
+      shell: powershell
+      run: |
+        pac admin help
+        pac auth list
+        
