@@ -65,9 +65,19 @@ jobs:
         deployment-profile: pre
 
     - name: export-data  
-      if: ${{vars.FLAGS_DATA == 1}}
       run: |
         echo "Data exported"
+
+    - name: import-data
+      uses: microsoft/powerplatform-actions/import-data@v0
+      if: ${{vars.FLAGS_DATA == 1}}
+      with:
+        environment-url: ${{vars.ENVIRONMENT_URL}}
+        app-id: ${{vars.CLIENT_ID}}
+        client-secret: ${{ secrets.CLIENT_SECRET }}
+        tenant-id: ${{vars.TENANT_ID}}
+        data-file: "Data/Content/"
+        verbose: true
 
     - name: backup-environment action
       uses: microsoft/powerplatform-actions/backup-environment@v0
