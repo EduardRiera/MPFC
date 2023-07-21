@@ -26,7 +26,19 @@ jobs:
     - name: set-pro-tag action  
       shell: cmd
       run: |
+        cd
+        echo %Path%
+        set "MY_PATH=%cd%"
+        cd ..\..\_actions\microsoft\powerplatform-actions\v0\dist\pac\tools
+        setx PATH "%PATH%;%cd%"
+        refreshenv
+        cd "%MY_PATH%"
         dir
-        echo "${{ github.action_path }}"
-        cd "D:\a\_actions\microsoft\powerplatform-actions\v0\dist\pac\tools"
+        pac help
+
+    - name: another-shell
+      shell: cmd
+      run: |
+        cd
+        echo %Path%
         pac help
