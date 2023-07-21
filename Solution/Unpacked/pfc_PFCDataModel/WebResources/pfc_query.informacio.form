@@ -20,16 +20,37 @@ var Query;
         (function (OnChange) {
             function statuscode(ec) {
                 var fc = ec.getFormContext();
-                if (fc.getAttribute(Query.Constants.Fields.StatusCode).getValue() == Query.Constants.StatusCodeOS.EnCurs && (fc.data.process.getActiveStage()._stageStep.description == Query.Constants.StatesNames.Finalitzada)) {
+                var stageStepDescription;
+                var newStatus;
+                debugger;
+                switch (fc.getAttribute(Query.Constants.Fields.StatusCode).getValue()) {
+                    case Query.Constants.StatusCodeOS.EnCurs:
+                        stageStepDescription = Query.Constants.StatesNames.EnCurs;
+                        newStatus = "active";
+                        break;
+                    case Query.Constants.StatusCodeOS.Esborrany:
+                        stageStepDescription = Query.Constants.StatesNames.Inici;
+                        newStatus = "active";
+                        break;
+                    case Query.Constants.StatusCodeOS.Cancelada:
+                        stageStepDescription = Query.Constants.StatesNames.Cancelada;
+                        newStatus = "abandoned";
+                        break;
+                    case Query.Constants.StatusCodeOS.Finalitzada:
+                        stageStepDescription = Query.Constants.StatesNames.Finalitzada;
+                        newStatus = "finished";
+                        break;
+                }
+                if (stageStepDescription && newStatus) {
                     var id_1 = null;
                     fc.data.process.getActiveProcess().getStages().forEach(function (v, i, a) {
-                        if (v._stageStep.description === Query.Constants.StatesNames.EnCurs) {
+                        if (v._stageStep.description === stageStepDescription) {
                             id_1 = v._stageStep.id;
                         }
                     });
-                    fc.data.process.setStatus("active");
                     setTimeout(function () {
                         fc.data.process.setActiveStage(id_1);
+                        fc.data.process.setStatus(newStatus);
                         fc.data.refresh(true);
                     }, 100);
                 }
@@ -252,6 +273,8 @@ var Query;
             StatusCodeOS.AnalisiResposta = 470000014;
             StatusCodeOS.Finalitzada = 2;
             StatusCodeOS.EnCurs = 470000001;
+            StatusCodeOS.Cancelada = 470000009;
+            StatusCodeOS.Esborrany = 470000000;
         })(StatusCodeOS = Constants.StatusCodeOS || (Constants.StatusCodeOS = {}));
     })(Constants = Query.Constants || (Query.Constants = {}));
 })(Query || (Query = {}));
@@ -261,7 +284,9 @@ var Query;
         var StatesNames;
         (function (StatesNames) {
             StatesNames.EnCurs = "En Curs";
+            StatesNames.Inici = "Inici";
             StatesNames.Finalitzada = "Finalitzada";
+            StatesNames.Cancelada = "Cancel-Lada";
         })(StatesNames = Constants.StatesNames || (Constants.StatesNames = {}));
     })(Constants = Query.Constants || (Query.Constants = {}));
 })(Query || (Query = {}));
@@ -381,22 +406,5 @@ var Query;
             return fetchXml;
         }
         Queries.QueriesToRetrieveAccount = QueriesToRetrieveAccount;
-        /*export function QueriesToRetrieveBPFStageId(fc) {
-            "use strict";
-            let fetchXml = [
-                "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='true' no-lock='true'>\
-                <entity name='pfc_settings'>\
-                <attribute name='pfc_configuration_group_name'/>\
-                <attribute name='pfc_value'/>\
-                <filter>\
-                <condition attribute='pfc_configuration_group_name' operator='eq' value='pfc_query_EnCursIdBPF'/>\
-                </filter>\
-                </entity>\
-                </fetch>",
-            ].join("");
-    
-            fetchXml = "?fetchXml=" + encodeURIComponent(fetchXml);
-            return fetchXml
-        }*/
     })(Queries = Query.Queries || (Query.Queries = {}));
 })(Query || (Query = {}));

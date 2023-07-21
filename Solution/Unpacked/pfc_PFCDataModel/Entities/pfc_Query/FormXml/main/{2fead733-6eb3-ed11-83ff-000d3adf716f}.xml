@@ -69,7 +69,7 @@
                         <labels>
                           <label description="Descripció del fets" languagecode="1027" />
                         </labels>
-                        <control id="pfc_description" classid="{E0DECE4B-6FC8-4A8F-A065-082708572369}" datafieldname="pfc_description" disabled="false" />
+                        <control id="pfc_description" classid="{F9A8A302-114E-466A-B582-6771B2AE0D92}" datafieldname="pfc_description" disabled="false" uniqueid="{23d44c85-2088-4b11-9fd0-8e6c2d9aaff0}" />
                       </cell>
                     </row>
                     <row />
@@ -517,7 +517,30 @@
           </row>
         </rows>
       </footer>
-      <controlDescriptions />
+      <controlDescriptions>
+        <controlDescription forControl="{23d44c85-2088-4b11-9fd0-8e6c2d9aaff0}">
+          <customControl id="{E0DECE4B-6FC8-4A8F-A065-082708572369}">
+            <parameters>
+              <datafieldname>pfc_description</datafieldname>
+            </parameters>
+          </customControl>
+          <customControl formFactor="0" name="MscrmControls.RichTextEditor.RichTextEditorControl">
+            <parameters>
+              <value type="Multiple">pfc_description</value>
+            </parameters>
+          </customControl>
+          <customControl formFactor="2" name="MscrmControls.RichTextEditor.RichTextEditorControl">
+            <parameters>
+              <value type="Multiple">pfc_description</value>
+            </parameters>
+          </customControl>
+          <customControl formFactor="1" name="MscrmControls.RichTextEditor.RichTextEditorControl">
+            <parameters>
+              <value type="Multiple">pfc_description</value>
+            </parameters>
+          </customControl>
+        </controlDescription>
+      </controlDescriptions>
       <Navigation>
         <NavBar>
           <NavBarByRelationshipItem Area="Info" Show="false" RelationshipName="pfc_query_SharePointDocuments" Id="navSPDocuments" Sequence="60">

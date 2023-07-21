@@ -1060,7 +1060,7 @@
           <IsRetrievable>0</IsRetrievable>
           <IsLocalizable>0</IsLocalizable>
           <Format>text</Format>
-          <MaxLength>2000</MaxLength>
+          <MaxLength>1048576</MaxLength>
           <displaynames>
             <displayname description="Descripció del fets" languagecode="1027" />
           </displaynames>
@@ -2547,7 +2547,7 @@
           <IsFilterable>0</IsFilterable>
           <IsRetrievable>0</IsRetrievable>
           <IsLocalizable>0</IsLocalizable>
-          <AppDefaultValue>-1</AppDefaultValue>
+          <AppDefaultValue>470000000</AppDefaultValue>
           <OptionSetName>pfc_webstatus</OptionSetName>
           <displaynames>
             <displayname description="Estat web" languagecode="1027" />
@@ -2747,7 +2747,7 @@
                   <Description description="" languagecode="1027" />
                 </Descriptions>
               </status>
-              <status value="470000002" state="0" TransitionData="&lt;allowedtransitions xmlns=&quot;http://schemas.microsoft.com/crm/2009/WebServices&quot;&gt;&lt;allowedtransition sourcestatusid=&quot;470000002&quot; tostatusid=&quot;470000001&quot; /&gt;&lt;/allowedtransitions&gt;" Color="#0000ff">
+              <status value="470000002" state="0" TransitionData="&lt;allowedtransitions xmlns=&quot;http://schemas.microsoft.com/crm/2009/WebServices&quot;&gt;&lt;allowedtransition sourcestatusid=&quot;470000002&quot; tostatusid=&quot;470000001&quot; /&gt;&lt;allowedtransition sourcestatusid=&quot;470000002&quot; tostatusid=&quot;470000009&quot; /&gt;&lt;/allowedtransitions&gt;" Color="#0000ff">
                 <labels>
                   <label description="Pendent Entitat" languagecode="1027" />
                 </labels>
@@ -2755,7 +2755,7 @@
                   <Description description="" languagecode="1027" />
                 </Descriptions>
               </status>
-              <status value="470000004" state="0" TransitionData="&lt;allowedtransitions xmlns=&quot;http://schemas.microsoft.com/crm/2009/WebServices&quot;&gt;&lt;allowedtransition sourcestatusid=&quot;470000004&quot; tostatusid=&quot;470000001&quot; /&gt;&lt;allowedtransition sourcestatusid=&quot;470000004&quot; tostatusid=&quot;470000015&quot; /&gt;&lt;/allowedtransitions&gt;" Color="#0000ff">
+              <status value="470000004" state="0" TransitionData="&lt;allowedtransitions xmlns=&quot;http://schemas.microsoft.com/crm/2009/WebServices&quot;&gt;&lt;allowedtransition sourcestatusid=&quot;470000004&quot; tostatusid=&quot;470000001&quot; /&gt;&lt;allowedtransition sourcestatusid=&quot;470000004&quot; tostatusid=&quot;470000015&quot; /&gt;&lt;allowedtransition sourcestatusid=&quot;470000004&quot; tostatusid=&quot;470000014&quot; /&gt;&lt;/allowedtransitions&gt;" Color="#0000ff">
                 <labels>
                   <label description="Resposta" languagecode="1027" />
                 </labels>
@@ -2763,17 +2763,17 @@
                   <Description description="" languagecode="1027" />
                 </Descriptions>
               </status>
-              <status value="470000010" state="0" TransitionData="&lt;allowedtransitions xmlns=&quot;http://schemas.microsoft.com/crm/2009/WebServices&quot;&gt;&lt;allowedtransition sourcestatusid=&quot;470000010&quot; tostatusid=&quot;470000001&quot; /&gt;&lt;/allowedtransitions&gt;" Color="#0000ff">
+              <status value="470000010" state="0" TransitionData="&lt;allowedtransitions xmlns=&quot;http://schemas.microsoft.com/crm/2009/WebServices&quot;&gt;&lt;allowedtransition sourcestatusid=&quot;470000010&quot; tostatusid=&quot;470000001&quot; /&gt;&lt;allowedtransition sourcestatusid=&quot;470000010&quot; tostatusid=&quot;470000009&quot; /&gt;&lt;/allowedtransitions&gt;" Color="#0000ff">
                 <labels>
                   <label description="Pendent AEAT" languagecode="1027" />
                 </labels>
               </status>
-              <status value="470000011" state="0" TransitionData="&lt;allowedtransitions xmlns=&quot;http://schemas.microsoft.com/crm/2009/WebServices&quot;&gt;&lt;allowedtransition sourcestatusid=&quot;470000011&quot; tostatusid=&quot;470000001&quot; /&gt;&lt;/allowedtransitions&gt;" Color="#0000ff">
+              <status value="470000011" state="0" TransitionData="&lt;allowedtransitions xmlns=&quot;http://schemas.microsoft.com/crm/2009/WebServices&quot;&gt;&lt;allowedtransition sourcestatusid=&quot;470000011&quot; tostatusid=&quot;470000001&quot; /&gt;&lt;allowedtransition sourcestatusid=&quot;470000011&quot; tostatusid=&quot;470000009&quot; /&gt;&lt;/allowedtransitions&gt;" Color="#0000ff">
                 <labels>
                   <label description="Pendent Consultora" languagecode="1027" />
                 </labels>
               </status>
-              <status value="470000012" state="0" TransitionData="&lt;allowedtransitions xmlns=&quot;http://schemas.microsoft.com/crm/2009/WebServices&quot;&gt;&lt;allowedtransition sourcestatusid=&quot;470000012&quot; tostatusid=&quot;470000001&quot; /&gt;&lt;/allowedtransitions&gt;" Color="#0000ff">
+              <status value="470000012" state="0" TransitionData="&lt;allowedtransitions xmlns=&quot;http://schemas.microsoft.com/crm/2009/WebServices&quot;&gt;&lt;allowedtransition sourcestatusid=&quot;470000012&quot; tostatusid=&quot;470000001&quot; /&gt;&lt;allowedtransition sourcestatusid=&quot;470000012&quot; tostatusid=&quot;470000009&quot; /&gt;&lt;/allowedtransitions&gt;" Color="#0000ff">
                 <labels>
                   <label description="Pendent DGT" languagecode="1027" />
                 </labels>

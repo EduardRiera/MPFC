@@ -44,7 +44,7 @@
         <Description description="" languagecode="1027" />
       </Descriptions>
     </option>
-    <option value="470000005" Color="#0000ff">
+    <option value="470000005" ExternalValue="" Color="#0000ff">
       <labels>
         <label description="Pendent de resposta" languagecode="1027" />
       </labels>
@@ -55,6 +55,14 @@
     <option value="470000003" ExternalValue="" Color="#0000ff">
       <labels>
         <label description="Finalitzada" languagecode="1027" />
+      </labels>
+      <Descriptions>
+        <Description description="" languagecode="1027" />
+      </Descriptions>
+    </option>
+    <option value="470000006" ExternalValue="" Color="#0000ff">
+      <labels>
+        <label description="Cancel-lada" languagecode="1027" />
       </labels>
       <Descriptions>
         <Description description="" languagecode="1027" />

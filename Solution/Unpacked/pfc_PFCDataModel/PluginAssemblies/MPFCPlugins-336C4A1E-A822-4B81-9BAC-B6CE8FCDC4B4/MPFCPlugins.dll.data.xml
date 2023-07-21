@@ -11,9 +11,6 @@
     <PluginType AssemblyQualifiedName="MPFC.Plugins.Plugins.AnswerCreatePreOperation, MPFC.Plugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=75cc2d627631382b" PluginTypeId="9f586927-b9c6-4eac-b804-b5f6f24bf0b8" Name="MPFC.Plugins.Plugins.AnswerCreatePreOperation">
       <FriendlyName>962c8ff1-7769-4dc6-9d57-04228ffec9cb</FriendlyName>
     </PluginType>
-    <PluginType AssemblyQualifiedName="MPFC.Plugins.Plugins.AnswerUpdatePreOperation, MPFC.Plugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=75cc2d627631382b" PluginTypeId="ce53b29d-30e4-4a3a-a2d9-3d84e01938cf" Name="MPFC.Plugins.Plugins.AnswerUpdatePreOperation">
-      <FriendlyName>a17f92ce-8921-4204-b16d-8f58c9128f78</FriendlyName>
-    </PluginType>
     <PluginType AssemblyQualifiedName="MPFC.Plugins.Plugins.AppointmentCreatePreOperation, MPFC.Plugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=75cc2d627631382b" PluginTypeId="b30e8ee3-39d8-4f11-a050-4b98069afd98" Name="MPFC.Plugins.Plugins.AppointmentCreatePreOperation">
       <FriendlyName>be5c14de-3f42-4d1c-8941-d58436663ef8</FriendlyName>
     </PluginType>

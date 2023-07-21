@@ -28,7 +28,7 @@
   </LocalizedNames>
   <labels>
     <steplabels id="{9c614c50-f407-4e0d-addf-939926864a82}">
-      <label languagecode="1027" description="Inici " />
+      <label languagecode="1027" description="Inici" />
     </steplabels>
     <steplabels id="{3494aae5-c916-4c11-a7c8-c889cf2713b8}">
       <label languagecode="1027" description="Responsable Consulta" />
@@ -49,7 +49,7 @@
       <label languagecode="1027" description="Consulta finalitzada" />
     </steplabels>
     <steplabels id="{0379b9a5-191b-4307-8368-108c4c8d0fb5}">
-      <label languagecode="1027" description="Finalitzada" />
+      <label languagecode="1027" description="Cancel-Lada" />
     </steplabels>
     <steplabels id="{1f2442c1-ad09-4497-8656-a133a8c202cf}">
       <label languagecode="1027" description="Raó per a l'estat" />

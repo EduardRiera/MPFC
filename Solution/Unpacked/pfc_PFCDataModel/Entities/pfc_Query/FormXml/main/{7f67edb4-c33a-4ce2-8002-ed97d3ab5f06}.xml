@@ -420,7 +420,7 @@
             </column>
           </columns>
         </tab>
-        <tab name="tab_12" id="ae0b3fe4-aa3a-48fe-b04e-dd62d4082625" IsUserDefined="0" locklevel="0" showlabel="true" expanded="true">
+        <tab name="tab_12" id="ae0b3fe4-aa3a-48fe-b04e-dd62d4082625" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false">
           <labels>
             <label description="Observacions" languagecode="1027" />
           </labels>
@@ -622,7 +622,7 @@
             </column>
           </columns>
         </tab>
-        <tab name="tab_3" id="27355cfb-b868-4dda-9fe5-41a3a086f18c" IsUserDefined="0" locklevel="0" showlabel="true" expanded="true">
+        <tab name="tab_3" id="27355cfb-b868-4dda-9fe5-41a3a086f18c" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false">
           <labels>
             <label description="Historial" languagecode="1027" />
           </labels>
@@ -665,7 +665,7 @@
             </column>
           </columns>
         </tab>
-        <tab name="tab_9" id="744d8a54-5c3f-40c0-8bbf-626c8a40d531" IsUserDefined="0" locklevel="0" showlabel="true" expanded="true">
+        <tab name="tab_9" id="744d8a54-5c3f-40c0-8bbf-626c8a40d531" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false">
           <labels>
             <label description="Consultes Relacionades" languagecode="1027" />
           </labels>
@@ -730,48 +730,6 @@
                     </row>
                     <row />
                     <row />
-                    <row />
-                    <row />
-                    <row />
-                  </rows>
-                </section>
-              </sections>
-            </column>
-          </columns>
-        </tab>
-        <tab name="tab_10" id="7c75a459-d1e5-4ea5-8856-56c0fc013f2c" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false">
-          <labels>
-            <label description="Procediment" languagecode="1027" />
-          </labels>
-          <columns>
-            <column width="100%">
-              <sections>
-                <section name="tab_10_section_1" id="d9ffbcdb-d18d-4ce1-9587-3b6d7e3d27cd" IsUserDefined="0" locklevel="0" showlabel="false" showbar="false" layout="varwidth" celllabelalignment="Left" celllabelposition="Left" columns="1" labelwidth="115">
-                  <labels>
-                    <label description="Nueva sección" languagecode="1027" />
-                  </labels>
-                  <rows>
-                    <row>
-                      <cell locklevel="0" id="{7b74c671-88ac-4f98-b06e-c6ebf5859b1d}" rowspan="4" colspan="1" auto="false">
-                        <labels>
-                          <label description="Procediment" languagecode="1027" />
-                        </labels>
-                        <control indicationOfSubgrid="true" id="Subgrid_new_7" classid="{E7A81278-8635-4D9E-8D4D-59480B391C5B}">
-                          <parameters>
-                            <RecordsPerPage>4</RecordsPerPage>
-                            <AutoExpand>Fixed</AutoExpand>
-                            <EnableQuickFind>false</EnableQuickFind>
-                            <EnableViewPicker>false</EnableViewPicker>
-                            <EnableChartPicker>true</EnableChartPicker>
-                            <ChartGridMode>All</ChartGridMode>
-                            <TargetEntityType>pfc_procedure</TargetEntityType>
-                            <ViewId>{09BE4465-44C0-46B6-94B3-4F3FA041F850}</ViewId>
-                            <ViewIds>{09BE4465-44C0-46B6-94B3-4F3FA041F850}</ViewIds>
-                            <RelationshipName>pfc_Query_pfc_queryid_pfc_procedure</RelationshipName>
-                          </parameters>
-                        </control>
-                      </cell>
-                    </row>
                     <row />
                     <row />
                     <row />
@@ -1011,7 +969,7 @@
           </row>
         </rows>
       </footer>
-      <controlDescriptions />
+      <controlDescriptions></controlDescriptions>
       <Navigation>
         <NavBar>
           <NavBarByRelationshipItem Area="Info" Show="false" RelationshipName="pfc_query_SharePointDocuments" Id="navSPDocuments" Sequence="60">

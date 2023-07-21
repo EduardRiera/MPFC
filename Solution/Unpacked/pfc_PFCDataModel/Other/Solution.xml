@@ -169,6 +169,7 @@
       <RootComponent type="29" id="{4f51b42d-0710-ee11-8f6d-000d3adf727d}" behavior="0" />
       <RootComponent type="29" id="{4f804de6-0d55-42ae-8dc8-23a4b1590544}" behavior="0" />
       <RootComponent type="29" id="{52998d2f-9ec9-4880-8305-54e32b241226}" behavior="0" />
+      <RootComponent type="29" id="{5313d1d1-1626-ee11-9965-000d3adf7052}" behavior="0" />
       <RootComponent type="29" id="{54f087c4-e599-4645-9dc1-49019d542477}" behavior="0" />
       <RootComponent type="29" id="{59b28957-77df-ed11-a7c6-002248a1c671}" behavior="0" />
       <RootComponent type="29" id="{5f8d19f0-77ab-4e0f-9035-cef7ff339a2f}" behavior="0" />
@@ -187,6 +188,7 @@
       <RootComponent type="29" id="{8b290814-9066-ed11-9561-000d3ab3f701}" behavior="0" />
       <RootComponent type="29" id="{8b5bedd9-5266-ed11-9561-000d3ab3f701}" behavior="0" />
       <RootComponent type="29" id="{9623d467-52ae-4979-89f6-2ac0d11dad99}" behavior="0" />
+      <RootComponent type="29" id="{962b53e8-e770-48e4-b3f1-cd178d1faf3d}" behavior="0" />
       <RootComponent type="29" id="{a2d7d468-8d9d-ed11-aad0-0022489fa802}" behavior="0" />
       <RootComponent type="29" id="{a2fda376-360c-ee11-8f6e-000d3adf7052}" behavior="0" />
       <RootComponent type="29" id="{a31be8e8-95f8-ed11-8849-000d3adf727d}" behavior="0" />
@@ -440,7 +442,6 @@
       <RootComponent type="9" schemaName="pfc_webstatus" behavior="0" />
       <RootComponent type="91" id="{f9cd5082-0140-45d2-a20c-845d5b59f969}" schemaName="MPFC.CustomAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=75cc2d627631382b" behavior="0" />
       <RootComponent type="91" id="{336c4a1e-a822-4b81-9bac-b6ce8fcdc4b4}" schemaName="MPFC.Plugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=75cc2d627631382b" behavior="0" />
-      <RootComponent type="91" id="{969a6454-040b-4f16-a59c-c0b96b20f46d}" schemaName="Portasignatures.Plugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8c5bdd215925265f" behavior="0" />
       <RootComponent type="92" id="{06438699-b1da-ed11-a7c7-000d3adf90aa}" behavior="0" />
       <RootComponent type="92" id="{0e8ac000-b9dd-ed11-a7c6-000d3adf90aa}" behavior="0" />
       <RootComponent type="92" id="{100cbb9c-b7b9-ed11-83ff-0022489fa802}" behavior="0" />
@@ -469,7 +470,6 @@
       <RootComponent type="92" id="{ba167e26-47e5-ed11-a7c7-000d3adf7052}" behavior="0" />
       <RootComponent type="92" id="{bd5b50d4-60f5-ed11-8849-000d3adf7052}" behavior="0" />
       <RootComponent type="92" id="{c08442a2-e0bc-ed11-83ff-000d3adf7052}" behavior="0" />
-      <RootComponent type="92" id="{c2d1a7ac-9b19-ee11-8f6d-000d3adea4bc}" behavior="0" />
       <RootComponent type="92" id="{dd018256-56ad-ed11-aad0-000d3adf7228}" behavior="0" />
       <RootComponent type="92" id="{dd95a593-e4ce-ed11-b597-000d3adf7052}" behavior="0" />
       <RootComponent type="92" id="{e01ccf14-e210-ee11-8f6d-000d3adea4bc}" behavior="0" />
@@ -5555,6 +5555,10 @@
         <Dependent type="29" displayName="EventMainBusinessProcessFlow" id="{9623d467-52ae-4979-89f6-2ac0d11dad99}" />
       </MissingDependency>
       <MissingDependency>
+        <Required type="29" displayName="Query: Change status reason to Cancel-lada" solution="Active" id="{fd0e0930-506f-4129-8276-a0e02ac0c395}" />
+        <Dependent type="29" displayName="BPF Query" id="{8b5bedd9-5266-ed11-9561-000d3ab3f701}" />
+      </MissingDependency>
+      <MissingDependency>
         <Required type="59" schemaName="Casos actius per agent" displayName="Casos actius per agent" parentSchemaName="incident" parentDisplayName="Cas" solution="msdynce_Service (9.0.5.56)" id="{4143b74e-4a07-4d01-9ffe-2cdcaa4208fd}">
           <package>msdynce_ServiceAnchor (9.0.23062.1005)</package>
         </Required>
@@ -5947,7 +5951,7 @@
         <Required type="61" schemaName="AppCommon/Account/Account_main_system_library.js" displayName="AppCommon/Account/Account_main_system_library.js" solution="msdynce_AppCommon (9.0.4.0066)">
           <package>msdynce_AppCommonAnchor (9.0.23062.10001)</package>
         </Required>
-        <Dependent type="60" displayName="Compte per a l'experiència interactiva" parentDisplayName="Entitat" id="{a72c7955-442b-4ea4-9499-b10cd18b4256}" />
+        <Dependent type="60" displayName="Informació default" parentDisplayName="Entitat" id="{b053a39a-041a-4356-acef-ddf00182762b}" />
       </MissingDependency>
       <MissingDependency>
         <Required type="61" schemaName="AppCommon/Account/Account_main_system_library.js" displayName="AppCommon/Account/Account_main_system_library.js" solution="msdynce_AppCommon (9.0.4.0066)">
@@ -6579,6 +6583,10 @@
       </MissingDependency>
       <MissingDependency>
         <Required type="66" schemaName="MscrmControls.RichTextEditor.RichTextEditorControl" displayName="MscrmControls.RichTextEditor.RichTextEditorControl" solution="msdyn_RichTextEditor (1.0.0.2548)" />
+        <Dependent type="60" displayName="Portals: Formulari de consulta de diversos passos" parentDisplayName="Consulta" id="{2fead733-6eb3-ed11-83ff-000d3adf716f}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="66" schemaName="MscrmControls.RichTextEditor.RichTextEditorControl" displayName="MscrmControls.RichTextEditor.RichTextEditorControl" solution="msdyn_RichTextEditor (1.0.0.2548)" />
         <Dependent type="60" displayName="Incidència" parentDisplayName="Curs" id="{4c09de7a-aa1e-40cb-a1e5-b0c0f27035b4}" />
       </MissingDependency>
       <MissingDependency>
@@ -6755,6 +6763,22 @@
           <package>CDSBasePortal (9.3.2209.79)</package>
         </Required>
         <Dependent type="29" displayName="Assing WebRole to Portal User by Contact Account" id="{d9a9383a-04fb-ed11-8849-000d3adf90aa}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="90" schemaName="Portasignatures.Plugins.Action.PortaFirmasCreateSignerOrApproverAction, Portasignatures.Plugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8c5bdd215925265f" displayName="Portasignatures.Plugins.Action.PortaFirmasCreateSignerOrApproverAction" solution="Active" id="{45846c73-b519-46d0-9672-605d84297ed5}" />
+        <Dependent type="92" displayName="Portasignatures.Plugins.Action.PortaFirmasCreateSignerOrApproverAction: pfc_PortaFirmasCreateSignerOrApprover of any Entity" id="{46ec61d2-5fe3-ed11-a7c7-000d3adf7052}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="90" schemaName="Portasignatures.Plugins.Action.PortaFirmasGetUsersAction, Portasignatures.Plugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8c5bdd215925265f" displayName="Portasignatures.Plugins.Action.PortaFirmasGetUsersAction" solution="Active" id="{7154a489-f42c-4d49-bb09-766e4aa0dc08}" />
+        <Dependent type="92" displayName="Portasignatures.Plugins.Action.PortaFirmasGetUsersAction: pfc_PortasignaturesGetUsers of any Entity" id="{7d8c3844-b5e2-ed11-a7c7-000d3adf7052}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="90" schemaName="Portasignatures.Plugins.Action.PortaFirmasUploadDocumentAction, Portasignatures.Plugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8c5bdd215925265f" displayName="Portasignatures.Plugins.Action.PortaFirmasUploadDocumentAction" solution="Active" id="{c581deec-4617-486e-84a0-8225f2644d53}" />
+        <Dependent type="92" displayName="Portasignatures.Plugins.Action.PortaFirmasUploadDocumentAction: pfc_PortaFirmasUploadDocument of any Entity" id="{ba167e26-47e5-ed11-a7c7-000d3adf7052}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="90" schemaName="Portasignatures.Plugins.Action.PortasignaturesCreateRequesterAction, Portasignatures.Plugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8c5bdd215925265f" displayName="Portasignatures.Plugins.Action.PortasignaturesCreateRequesterAction" solution="Active" id="{e3296f6c-ca63-4056-a899-435500864e24}" />
+        <Dependent type="92" displayName="Portasignatures.Plugins.Action.PortasignaturesCreateRequesterAction: pfc_PortaFirmasCreateRequester of any Entity" id="{5b02fadf-dee2-ed11-a7c7-000d3adf90aa}" />
       </MissingDependency>
     </MissingDependencies>
   </SolutionManifest>

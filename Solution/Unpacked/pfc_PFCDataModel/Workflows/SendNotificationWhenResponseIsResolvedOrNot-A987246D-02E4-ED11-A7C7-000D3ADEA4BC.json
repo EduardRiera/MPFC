@@ -123,7 +123,7 @@
                       "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
                     },
                     "parameters": {
-                      "emailMessage/To": "@outputs('Obtener_una_fila_por_id_4')?['body/emailaddress1']",
+                      "emailMessage/To": "@outputs('Obtener_una_fila_por_id_4')?['body/internalemailaddress']",
                       "emailMessage/Subject": "Resolució resposta consulta @{outputs('Obtener_una_fila_por_id')?['body/pfc_name']}",
                       "emailMessage/Body": "<br>Bon dia,</br>\n\n<br>L'entitat ha validat la resposta donada a la consulta @{outputs('Obtener_una_fila_por_id')?['body/pfc_name']}.</br>\n\n<br>Podeu visualitzar els detalls al següent enllaç: <br><p><a href=\"@{outputs('Redactar')}\"> @{triggerOutputs()?['body/subject']}</a></p><br></br>\n\nSalutacions.",
                       "emailMessage/Importance": "Normal"
@@ -148,8 +148,8 @@
                       "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
                     },
                     "parameters": {
-                      "entityName": "contacts",
-                      "recordId": "@outputs('Obtener_una_fila_por_id')?['body/_pfc_applicantid_value']"
+                      "entityName": "systemusers",
+                      "recordId": "@outputs('Obtener_una_fila_por_id')?['body/_ownerid_value']"
                     },
                     "authentication": "@parameters('$authentication')"
                   }
@@ -206,7 +206,7 @@
                         "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
                       },
                       "parameters": {
-                        "emailMessage/To": "@outputs('Obtener_una_fila_por_id_3')?['body/emailaddress1']",
+                        "emailMessage/To": "@outputs('Obtener_una_fila_por_id_3')?['body/internalemailaddress']",
                         "emailMessage/Subject": "Resolució resposta consulta @{outputs('Obtener_una_fila_por_id_2')?['body/pfc_name']}",
                         "emailMessage/Body": "<br>Bon dia,</br>\n\n<br>L'entitat no ha validat la resposta donada a la consulta @{outputs('Obtener_una_fila_por_id_2')?['body/pfc_name']}.</br>\n\n<br>Podeu visualitzar els detalls al següent enllaç: <br><p><a href=\"@{outputs('Redactar_2')}\"> @{triggerOutputs()?['body/subject']}</a></p><br></br>\n\nSalutacions.",
                         "emailMessage/Importance": "Normal"
@@ -231,8 +231,8 @@
                         "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
                       },
                       "parameters": {
-                        "entityName": "contacts",
-                        "recordId": "@outputs('Obtener_una_fila_por_id_2')?['body/_pfc_applicantid_value']"
+                        "entityName": "systemusers",
+                        "recordId": "@outputs('Obtener_una_fila_por_id_2')?['body/_ownerid_value']"
                       },
                       "authentication": "@parameters('$authentication')"
                     }
