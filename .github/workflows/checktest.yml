@@ -30,14 +30,17 @@ jobs:
         tenant-id: ${{vars.TENANT_ID}}
         path: "${{vars.SOLUTION_RELEASE_FOLDER}}/${{vars.SOLUTION_NAME}}.zip"
         geo: "Europe"
-        checker-logs-artifact-name: "CheckSolutionsLogs"
+        checker-logs-artifact-name: "check-solution-log"
         fail-on-analysis-error: false
 
-    - name: dir
-      shell: cmd
-      run: |
-        dir /s /b /ad
-        dir CheckSolutionsLogs/*.*
+    - name: download-log
+      uses: actions/download-artifact@v2
+      with:
+        name: check-solution-log
+        path: check-solution-log.zip
+
+    - name: unzip-log
+      run: unzip check-solution-log.zip
 
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v2
