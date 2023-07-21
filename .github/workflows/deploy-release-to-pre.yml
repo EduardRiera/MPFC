@@ -29,6 +29,34 @@ jobs:
         client-secret: ${{ secrets.CLIENT_SECRET }}
         tenant-id: ${{vars.TENANT_ID}}
 
+    - name: check-unmanaged-solution action
+      uses: microsoft/powerplatform-actions/check-solution@v0
+      if: ${{vars.FLAGS_CHECK == 1}}
+      with:
+        environment-url: ${{vars.ENVIRONMENT_URL}}
+        app-id: ${{vars.CLIENT_ID}}
+        client-secret: ${{ secrets.CLIENT_SECRET }}
+        tenant-id: ${{vars.TENANT_ID}}
+        path: "${{vars.SOLUTION_EXPORTED_FOLDER}}/${{vars.SOLUTION_NAME}}.zip"
+        geo: "Europe"
+        checker-logs-artifact-name: check-solution-log
+        fail-on-analysis-error: false
+
+    - name: download-log
+      uses: actions/download-artifact@v2
+      if: ${{vars.FLAGS_CHECK == 1}}
+      with:
+        name: check-solution-log
+        path: check-solution-log
+
+    - name: Upload SARIF file
+      uses: github/codeql-action/upload-sarif@v2
+      if: ${{vars.FLAGS_CHECK == 1}}
+      with:
+        # Path to SARIF file relative to the root of the repository
+        sarif_file: check-solution-log
+        category: powerplatform-check
+        
     - name: backup-environment action
       uses: microsoft/powerplatform-actions/backup-environment@v0
       if: ${{vars.FLAGS_BACKUP == 1}}
