@@ -34,6 +34,7 @@ jobs:
         fail-on-analysis-error: false
 
     - name: dir
+      shell: cmd
       run: |
         dir /s /b /ad
         dir CheckSolutionsLogs/*.*
