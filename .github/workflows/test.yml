@@ -26,4 +26,5 @@ jobs:
     - name: set-pro-tag action  
       shell: cmd
       run: |
-        dir /s /b "D:\a"
+        cd "D:\a\_actions\microsoft\powerplatform-actions\v0\dist\pac\tools"
+        pac help
