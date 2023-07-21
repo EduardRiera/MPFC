@@ -26,10 +26,6 @@ jobs:
         client-secret: ${{ secrets.CLIENT_SECRET }}
         tenant-id: ${{vars.TENANT_ID}}
 
-    - name: test pac cli
-      run: |
-        pac help
-
     - name: export-managed-solution action
       uses: microsoft/powerplatform-actions/export-solution@v0
       with:
