@@ -23,22 +23,21 @@ jobs:
          client-secret: ${{ secrets.CLIENT_SECRET }}
          tenant-id: ${{vars.TENANT_ID}}      
 
-    - name: set-pro-tag action  
+    - name: another-shell
       shell: cmd
       run: |
-        cd
         echo %Path%
-        set "MY_PATH=%cd%"
-        cd ..\..\_actions\microsoft\powerplatform-actions\v0\dist\pac\tools
-        setx PATH "%PATH%;%cd%"
-        refreshenv
-        cd "%MY_PATH%"
-        dir
-        pac help
+
+    - name: set-pac-cli-path
+      shell: powershell
+      run: |
+        Set-Location "..\..\_actions\microsoft\powerplatform-actions\v0\dist\pac\tools"
+        $newPath = (Get-Location).Path
+        $oldPath = [Environment]::GetEnvironmentVariable('PATH', 'Machine');
+        [Environment]::SetEnvironmentVariable('PATH', "$oldPath;$newPath",'Machine');
 
     - name: another-shell
       shell: cmd
       run: |
-        cd
         echo %Path%
         pac help
