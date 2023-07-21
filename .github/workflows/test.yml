@@ -45,4 +45,6 @@ jobs:
       shell: cmd
       run: |
         echo %Path%
+        refreshenv
+        echo %Path%
         pac help
