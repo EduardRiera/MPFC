@@ -37,16 +37,22 @@ jobs:
         $oldPath = [Environment]::GetEnvironmentVariable('PATH', 'Machine');
         [Environment]::SetEnvironmentVariable('PATH', "$newPath;$oldPath",'Machine');
         $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-        $env:Path
         Set-Location "${{github.workspace}}"
         pac help
+        [Environment]::GetEnvironmentVariable('PATH', 'Machine');
+        [Environment]::GetEnvironmentVariable('PATH', 'User');
 
     - name: another-shell
       shell: cmd
       run: |
+        echo "before refresh"
         echo %Path%
         refreshenv
+        echo "after refresh"
         echo %Path%
+        echo "now the github env"
+        echo $PATH
+        echo "and run"
         pac help
         
     - name: set-pac-cli-path
