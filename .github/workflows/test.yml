@@ -31,3 +31,18 @@ jobs:
     - name: test
       run: |
         pac org who
+        echo GITHUB:
+        echo ${{ toJson(github) }}
+        echo JOB:
+        echo ${{ toJson(job) }}
+        echo STEPS:
+        echo ${{ toJson(steps) }}
+        echo RUNNER:
+        echo ${{ toJson(runner) }}
+        echo ENV:
+        echo ${{ toJson(env) }}
+        echo VARS:
+        echo ${{ toJson(vars) }}
+        echo INPUTS:
+        echo ${{ toJson(inputs) }}
+     
