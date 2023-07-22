@@ -22,9 +22,9 @@ jobs:
 
     - name: test
       env:
-        preproduccionUrl:'https://integracio-eco-mpfc.crm4.dynamics.com/'
-        sourceUser:'GGMZNT0003@gencat.cat'
-        sourcePassword:'Avanade2023$'
+        preproduccionUrl: "https://integracio-eco-mpfc.crm4.dynamics.com/"
+        sourceUser: "GGMZNT0003@gencat.cat"
+        sourcePassword: "Avanade2023$"
       run: |
         pac auth create -u $env:preproduccionUrl -un $env:sourceUser -p $env:sourcePassword
 
