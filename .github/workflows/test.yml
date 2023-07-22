@@ -27,28 +27,26 @@ jobs:
       shell: cmd
       run: |
         echo ${{github.workspace}} 
+        echo "path"
         echo %Path%
+        echo "githubpath"
+        echo %GITHUB_PATH% 
 
     - name: set-pac-cli-path
       shell: powershell
       run: |
         Set-Location "..\..\_actions\microsoft\powerplatform-actions\v0\dist\pac\tools"
         $newPath = (Get-Location).Path
-        $oldPath = [Environment]::GetEnvironmentVariable('PATH', 'Machine');
-        [Environment]::SetEnvironmentVariable('PATH', "$newPath;$oldPath",'Machine');
-        $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-        Set-Location "${{github.workspace}}"
-        pac help
-        [Environment]::GetEnvironmentVariable('PATH', 'Machine');
-        [Environment]::GetEnvironmentVariable('PATH', 'User');
+        (Get-Location).Path | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append        
 
     - name: another-shell
       shell: cmd
       run: |
-        echo "before refresh"
+        echo "after powershell"
+        echo "path"
         echo %Path%
-        echo "now the github env"
-        echo $PATH
+        echo "githubpath"
+        echo %GITHUB_PATH% 
         echo "and run"
         pac help
         
