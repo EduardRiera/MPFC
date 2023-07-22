@@ -7,49 +7,20 @@ permissions:
 jobs:
   deploy-pre-to-pro:
     runs-on: windows-latest
-    environment: MAIN        
 
     steps:
-    - name: checkout action
-      uses: actions/checkout@v3
-      with:
-        lfs: true
-        
-    - name: who-am-i action
+       
+    - name: download-pac-cli
+      if: false
       uses: microsoft/powerplatform-actions/who-am-i@v0
-      with:
-         environment-url: ${{vars.ENVIRONMENT_URL}}
-         app-id: ${{vars.CLIENT_ID}}
-         client-secret: ${{ secrets.CLIENT_SECRET }}
-         tenant-id: ${{vars.TENANT_ID}}      
 
     - name: set-pac-cli-path
       shell: powershell
       run: |
         Set-Location "..\..\_actions\microsoft\powerplatform-actions\v0\dist\pac\tools"
-        $newPath = (Get-Location).Path
         (Get-Location).Path | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append        
 
-    - name: another-shell
+    - name: test
       run: |
-        pac plugin help
+        pac help
         
-    - name: set-pac-cli-path
-      shell: powershell
-      run: |
-        pac admin help
-        
-    - name: another-shell
-      shell: cmd
-      run: |
-        pac data help
-
-    - name: another-shell
-      shell: bash
-      run: |
-        pac solution help
-
-    - name: another-shell
-      shell: pwsh
-      run: |
-        pac paportal help
