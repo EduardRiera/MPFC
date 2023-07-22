@@ -15,6 +15,7 @@ jobs:
       uses: microsoft/powerplatform-actions/who-am-i@v0
 
     - name: set-pac-cli-path
+      shell: pwsh
       run: |
         Set-Location "..\..\_actions\microsoft\powerplatform-actions\v0\dist\pac\tools"
         (Get-Location).Path | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append        
