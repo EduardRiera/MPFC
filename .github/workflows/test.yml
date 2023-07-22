@@ -35,8 +35,6 @@ jobs:
         pac org who
         echo GITHUB:
         echo "${{ toJson(github) }}"
-        echo JOBS:
-        echo "${{ toJson(jobs) }}"
         echo JOB:
         echo "${{ toJson(job) }}"
         echo STEPS:
