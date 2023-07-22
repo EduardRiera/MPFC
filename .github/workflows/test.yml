@@ -47,9 +47,6 @@ jobs:
       run: |
         echo "before refresh"
         echo %Path%
-        refreshenv
-        echo "after refresh"
-        echo %Path%
         echo "now the github env"
         echo $PATH
         echo "and run"
