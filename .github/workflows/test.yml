@@ -29,20 +29,26 @@ jobs:
         pac auth create -u $env:preproduccionUrl -un $env:sourceUser -p $env:sourcePassword
 
     - name: test
+      env:
+        preproduccioUrl: "https://integracio-eco-mpfc.crm4.dynamics.com/"
       run: |
         pac org who
         echo GITHUB:
-        echo ${{ toJson(github) }}
+        echo "${{ toJson(github) }}"
+        echo JOBS:
+        echo "${{ toJson(jobs) }}"
         echo JOB:
-        echo ${{ toJson(job) }}
+        echo "${{ toJson(job) }}"
         echo STEPS:
-        echo ${{ toJson(steps) }}
+        echo "${{ toJson(steps) }}"
         echo RUNNER:
-        echo ${{ toJson(runner) }}
+        echo "${{ toJson(runner) }}"
         echo ENV:
-        echo ${{ toJson(env) }}
+        echo "${{ toJson(env) }}"
         echo VARS:
-        echo ${{ toJson(vars) }}
+        echo "${{ toJson(vars) }}"
         echo INPUTS:
-        echo ${{ toJson(inputs) }}
+        echo "${{ toJson(inputs) }}"
+        echo GITHUB_PATH:
+        echo "$env:GITHUB_PATH"
      
