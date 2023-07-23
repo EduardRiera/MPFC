@@ -9,7 +9,10 @@ jobs:
     runs-on: windows-latest
 
     steps:
-       
+
+    - name: checkout action
+      uses: actions/checkout@v3
+      
     - name: download-pac-cli
       if: false
       uses: microsoft/powerplatform-actions/who-am-i@v0
