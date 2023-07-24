@@ -32,7 +32,7 @@ jobs:
         Set-Location "..\..\_actions\microsoft\powerplatform-actions\v0\dist\pac\tools"
         (Get-Location).Path | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append        
 
-    - name: check-unmanaged-solution action
+    - name: check-solution
       id: check-solution
       uses: microsoft/powerplatform-actions/check-solution@v0
       if: ${{vars.FLAGS_CHECK == 1}}
@@ -47,7 +47,7 @@ jobs:
         fail-on-analysis-error: false
 
     - name: check-output
-      run: echo "${{ toJson(steps.check-solution.outputs) }}"
+      run: echo "${{ toJson(steps.check-solution) }}"
       
     - name: download-log
       uses: actions/download-artifact@v2
