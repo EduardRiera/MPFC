@@ -13,7 +13,7 @@ Write-Host -ForegroundColor DarkRed "###########################################
 #Declarations
 $integracionUrl = "https://integracio-eco-mpfc.crm4.dynamics.com/"
 $sourceUser = "GGMZNT0003@gencat.cat"
-$sourcePassword = "Avanade2023$"
+$sourcePassword = "***"
 $integracionWebsiteId = "bc82a5af-c8b2-ed11-83ff-000d3adf796b"
 
 #############################################################################################################################
