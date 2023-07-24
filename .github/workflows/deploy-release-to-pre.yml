@@ -106,6 +106,9 @@ jobs:
             ForEach-Object {
               $dll = Get-ItemProperty -Path $_.FullName -Name VersionInfo
               $orgversion = (Get-VersionFromOrg -AssemblyName $dll.VersionInfo.FileDescription)
+              $orgversion
+              $orgversion.GetType()
+              $orgversion[0]
               "{0}|{1}|{2}|{3}|{4}" -f $_.Name, $dll.VersionInfo.FileDescription, $dll.VersionInfo.FileVersion, ${orgversion}, "(pending)"
             }) -join "`n")
 
