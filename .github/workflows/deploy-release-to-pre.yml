@@ -11,7 +11,7 @@ permissions:
   security-events: write  
   
 jobs:
-  deploy-release-to-pre:
+  update-release-notes:
     runs-on: windows-latest
     environment: PRE        
 
@@ -54,6 +54,7 @@ jobs:
         path: check-solution-log
 
     - name: set-qualityresults
+      if: ${{vars.FLAGS_CHECK == 1}}
       run: |
         $sarif = Get-ChildItem -Path "check-solution-log" -Filter "*.sarif" -Recurse | Select-Object -First 1
         $summary = $sarif | Get-Content | jq ".runs[].results | group_by(.properties.severity) | map({key: .[0].properties.severity, value: length}) | from_entries"
@@ -67,6 +68,63 @@ jobs:
         sarif_file: check-solution-log
         category: powerplatform-check
         
+    - name: update-release-notes
+      shell: powershell
+      env:
+        GH_TOKEN: ${{ github.token }}      
+      run: |
+         
+         pac auth create -u ${{vars.ENVIRONMENT_URL}} -id ${{vars.CLIENT_ID}} -cs ${{secrets.CLIENT_SECRET}}  
+         
+         function Get-VersionFromOrg {
+         param (        
+            [string]$AssemblyName
+         )
+         $fetchXML = @"
+         <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+            <entity name="pluginassembly">
+            <attribute name="name" />
+            <attribute name="version" />
+            <filter type="and">
+                <condition attribute="name" operator="eq" value="$AssemblyName" />
+            </filter>
+            </entity>
+         </fetch>
+         "@
+         $plugin = pac org fetch --xml ($fetchXML -replace "`n", "") | Select-Object -Skip 4 | ConvertFrom-String -PropertyNames version
+         return $plugin.version
+         }
+
+
+         $markdown = @"
+         # Release ${{github.ref_name}}
+         
+         ## Included Plugins
+         Fichero | Nombre | Version | PRE | PRO
+         --- | --- | --- | --- | ---
+         $((Get-ChildItem -Path "${{vars.SOLUTION_DETAIL_FOLDER}}/${{vars.SOLUTION_NAME}}/PluginAssemblies" -Recurse -Filter *.dll | 
+            ForEach-Object {
+              $dll = Get-ItemProperty -Path $_.FullName -Name VersionInfo
+              $orgversion = Get-VersionFromOrg -AssemblyName $dll.VersionInfo.FileDescription
+              "{0}|{1}|{2}|{3}|{4}" -f $_.Name, $dll.VersionInfo.FileDescription, $dll.VersionInfo.FileVersion, $orgversion, "(pending)"
+            }) -join "`n")
+
+         ##Quality (defects by severity):
+         ${{env.qualityresults}}
+         "@
+
+         gh release edit ${{github.ref_name}} --notes "$markdown"
+
+  deploy-release-to-pre:
+    runs-on: windows-latest
+    environment: PRE        
+
+    steps:
+    - name: checkout action
+      uses: actions/checkout@v3
+      with:
+        lfs: true
+
     - name: backup-environment action
       uses: microsoft/powerplatform-actions/backup-environment@v0
       if: ${{vars.FLAGS_BACKUP == 1}}
@@ -132,53 +190,19 @@ jobs:
       run: |
         git tag ${{env.pre-tag}}
         git push origin ${{env.pre-tag}}
-        
+
     - name: update-release-notes
       shell: powershell
       env:
         GH_TOKEN: ${{ github.token }}      
       run: |
+         $previousmarkdown = (gh release view ${{github.ref_name}} --json body --jq ".body") -join "`n"
          
-         pac auth create -u ${{vars.ENVIRONMENT_URL}} -id ${{vars.CLIENT_ID}} -cs ${{secrets.CLIENT_SECRET}}  
-         
-         function Get-VersionFromOrg {
-         param (        
-            [string]$AssemblyName
-         )
-         $fetchXML = @"
-         <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
-            <entity name="pluginassembly">
-            <attribute name="name" />
-            <attribute name="version" />
-            <filter type="and">
-                <condition attribute="name" operator="eq" value="$AssemblyName" />
-            </filter>
-            </entity>
-         </fetch>
-         "@
-         $plugin = pac org fetch --xml ($fetchXML -replace "`n", "") | Select-Object -Skip 4 | ConvertFrom-String -PropertyNames version
-         return $plugin.version
-         }
-
-
          $markdown = @"
-         # Release ${{github.ref_name}}
+         $previousmarkdown
          
-         ## Included Plugins
-         Fichero | Nombre | Version | PRE | PRO
-         --- | --- | --- | --- | ---
-         $((Get-ChildItem -Path "${{vars.SOLUTION_DETAIL_FOLDER}}/${{vars.SOLUTION_NAME}}/PluginAssemblies" -Recurse -Filter *.dll | 
-            ForEach-Object {
-              $dll = Get-ItemProperty -Path $_.FullName -Name VersionInfo
-              $orgversion = Get-VersionFromOrg -AssemblyName $dll.VersionInfo.FileDescription
-              "{0}|{1}|{2}|{3}|{4}" -f $_.Name, $dll.VersionInfo.FileDescription, $dll.VersionInfo.FileVersion, $orgversion, "(pending)"
-            }) -join "`n")
-
-         ##Quality (defects by severity):
-         ${{env.qualityresults}}
-
          Installed on ${{env.pre-tag}} with (Backup=${{vars.FLAGS_BACKUP}}, Solution=${{vars.FLAGS_SOLUTION}}, Portal=${{vars.FLAGS_PORTAL}}, Data=${{vars.FLAGS_DATA}}) by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
          "@
-
+         
          gh release edit ${{github.ref_name}} --notes "$markdown"
-
+         
