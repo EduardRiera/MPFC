@@ -55,8 +55,8 @@ jobs:
 
     - name: set-qualityresults
       run: |
-        $sarif-files = Get-ChildItem -Path "check-solution-log" -Filter "*.sarif" -Recurse
-        $summary = $sarif-files | Get-Content | jq ".runs[].results | group_by(.properties.severity) | map({key: .[0].properties.severity, value: length}) | from_entries"
+        $sarif = Get-ChildItem -Path "check-solution-log" -Filter "*.sarif" -Recurse | Select-Object -First 1
+        $summary = $sarif | Get-Content | jq ".runs[].results | group_by(.properties.severity) | map({key: .[0].properties.severity, value: length}) | from_entries"
         echo "qualityresults=$summary" >> $env:GITHUB_ENV
 
     - name: upload-sariftogithub
@@ -173,7 +173,7 @@ jobs:
               "{0}|{1}|{2}|{3}|{4}" -f $_.Name, $dll.VersionInfo.FileDescription, $dll.VersionInfo.FileVersion, $predll.version, "(pending)"
             }) -join "`n")
 
-         ##Quality run (defects by severity):
+         ##Quality (defects by severity):
          ${{env.qualityresults}}
 
          Installed on ${{env.pre-tag}} with (Backup=${{vars.FLAGS_BACKUP}}, Solution=${{vars.FLAGS_SOLUTION}}, Portal=${{vars.FLAGS_PORTAL}}, Data=${{vars.FLAGS_DATA}}) by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
