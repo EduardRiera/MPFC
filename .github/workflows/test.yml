@@ -30,6 +30,7 @@ jobs:
         sourcePassword: "Avanade2023$"
       run: |
         pac auth create -u $env:preproduccionUrl -un $env:sourceUser -p $env:sourcePassword
+        pac org fetch --xml "<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false"><entity name="pluginassembly"><attribute name="name" /><attribute name="version" /><attribute name="culture" /><attribute name="publickeytoken" /><attribute name="sourcetype" /><attribute name="isolationmode" /></entity></fetch>"        
 
     - name: test
       env:
