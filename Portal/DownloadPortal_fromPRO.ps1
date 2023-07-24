@@ -13,7 +13,7 @@ Write-Host -ForegroundColor DarkRed "###########################################
 #Declarations
 $preproduccionUrl = "https://eco-mpfc.crm4.dynamics.com/"
 $sourceUser = "GGMZNT0003@gencat.cat"
-$sourcePassword = "Avanade2023$"
+$sourcePassword = "***"
 $preproduccionWebsiteId = "b40aeecf-7ae3-ed11-a7c7-002248a0708a"
 
 #############################################################################################################################
