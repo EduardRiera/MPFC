@@ -46,9 +46,6 @@ jobs:
         checker-logs-artifact-name: check-solution-log
         fail-on-analysis-error: false
 
-    - name: check-output
-      run: echo "${{ toJson(steps.check-solution) }}"
-      
     - name: download-log
       uses: actions/download-artifact@v2
       if: ${{vars.FLAGS_CHECK == 1}}
@@ -56,7 +53,13 @@ jobs:
         name: check-solution-log
         path: check-solution-log
 
-    - name: Upload SARIF file
+    - name: set-qualityresults
+      run: |
+        $sarif-files = Get-ChildItem -Path "check-solution-log" -Filter "*.sarif" -Recurse
+        $summary = $sarif-files | Get-Content | jq ".runs[].results | group_by(.properties.severity) | map({key: .[0].properties.severity, value: length}) | from_entries"
+        echo "qualityresults=$summary" >> $env:GITHUB_ENV
+
+    - name: upload-sariftogithub
       uses: github/codeql-action/upload-sarif@v2
       if: ${{vars.FLAGS_CHECK == 1}}
       with:
@@ -151,12 +154,11 @@ jobs:
             </entity>
          </fetch>
          "@
-         $predll = pac org fetch --xml ($fetchXML -replace "`n", "") | Select-Object -Skip 4 | ConvertFrom-String -PropertyNames name, version, guid
-         return $predll
+         $plugin = pac org fetch --xml ($fetchXML -replace "`n", "") | Select-Object -Skip 4 | ConvertFrom-String -PropertyNames name, version, guid
+         return $plugin
          }
 
          $login = pac auth create -u ${{vars.ENVIRONMENT_URL}} -id ${{vars.CLIENT_ID}} -cs ${{secrets.CLIENT_SECRET}}  
-         $summary = jq '.runs[].results | group_by(.properties.severity) | map({key: .[0].properties.severity, value: length}) | from_entries'  ./check-solution-log/*.sarif
 
          $markdown = @"
          # Release ${{github.ref_name}}
@@ -172,7 +174,7 @@ jobs:
             }) -join "`n")
 
          ##Quality run (defects by severity):
-         $summary
+         ${{env.qualityresults}}
 
          Installed on ${{env.pre-tag}} with (Backup=${{vars.FLAGS_BACKUP}}, Solution=${{vars.FLAGS_SOLUTION}}, Portal=${{vars.FLAGS_PORTAL}}, Data=${{vars.FLAGS_DATA}}) by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
          "@
