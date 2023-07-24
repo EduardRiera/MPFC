@@ -135,28 +135,27 @@ jobs:
       env:
         GH_TOKEN: ${{ github.token }}      
       run: |
-
-         function Get-PluginDll-FromOrg {
-            param (        
-              [string]$AssemblyName
-            )
-            $fetchXML = @"
-            <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
-              <entity name="pluginassembly">
-                <attribute name="name" />
-                <attribute name="version" />
-                <filter type="and">
-                  <condition attribute="name" operator="eq" value="$AssemblyName" />
-                </filter>
-              </entity>
-            </fetch>
-            "@
-            pac org fetch --xml ($fetchXML -replace "`n", "") | Select-Object -Skip 4 | ConvertFrom-String -PropertyNames name, version, guid
+         #Generar informe
+         function Get-PluginDllFromOrg {
+         param (        
+            [string]$AssemblyName
+         )
+         $fetchXML = @"
+         <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+            <entity name="pluginassembly">
+            <attribute name="name" />
+            <attribute name="version" />
+            <filter type="and">
+                <condition attribute="name" operator="eq" value="$AssemblyName" />
+            </filter>
+            </entity>
+         </fetch>
+         "@
+         pac org fetch --xml ($fetchXML -replace "`n", "") | Select-Object -Skip 4 | ConvertFrom-String -PropertyNames name, version, guid
          }
          
          dir check-solution-log
          $summary = jq '.runs[].results | group_by(.properties.severity) | map({key: .[0].properties.severity, value: length}) | from_entries'  check-solution-log\*.sarif
-
 
          $markdown = @"
          # Release ${{github.ref_name}}
@@ -168,7 +167,7 @@ jobs:
          $((Get-ChildItem -Path "${{vars.SOLUTION_DETAIL_FOLDER}}/${{vars.SOLUTION_NAME}}/PluginAssemblies" -Recurse -Filter *.dll | 
             ForEach-Object {
               $dll = Get-ItemProperty -Path $_.FullName -Name VersionInfo
-              $predll = Get-PluginDll-FromOrg -AssemblyName $dll.VersionInfo.FileDescription
+              $predll = Get-PluginDllFromOrg -AssemblyName $dll.VersionInfo.FileDescription
               "{0}|{1}|{2}|{3}|{4}" -f $_.Name, $dll.VersionInfo.FileDescription, $dll.VersionInfo.FileVersion, $predll.version, "(pending)"
             }) -join "`n")
 
