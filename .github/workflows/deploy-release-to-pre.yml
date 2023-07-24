@@ -145,7 +145,7 @@ jobs:
          $((Get-ChildItem -Path "${{vars.SOLUTION_DETAIL_FOLDER}}/${{vars.SOLUTION_NAME}}/PluginAssemblies" -Recurse -Filter *.dll | 
             ForEach-Object {
               $dll = Get-ItemProperty -Path $_.FullName -Name VersionInfo
-              $fetchXML = @"
+              $fetchXML = @`"
               <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
                 <entity name="pluginassembly">
                   <attribute name="name" />
@@ -155,7 +155,7 @@ jobs:
                   </filter>
                 </entity>
               </fetch>
-              "@
+              `"@
               $predll = pac org fetch --xml ($fetchXML -replace "`n", "") | Select-Object -Skip 4 | ConvertFrom-String -PropertyNames version
               "{0}|{1}|{2}|{3}|{4}" -f $_.Name, $dll.VersionInfo.FileDescription, $dll.VersionInfo.FileVersion, $predll.version, "(pending)"
             }) -join "`n")
