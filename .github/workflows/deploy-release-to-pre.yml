@@ -47,7 +47,7 @@ jobs:
         fail-on-analysis-error: false
 
     - name: download-log
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       if: ${{vars.FLAGS_CHECK == 1}}
       with:
         name: check-solution-log
@@ -105,8 +105,8 @@ jobs:
          $((Get-ChildItem -Path "${{vars.SOLUTION_DETAIL_FOLDER}}/${{vars.SOLUTION_NAME}}/PluginAssemblies" -Recurse -Filter *.dll | 
             ForEach-Object {
               $dll = Get-ItemProperty -Path $_.FullName -Name VersionInfo
-              $orgversion = Get-VersionFromOrg -AssemblyName $dll.VersionInfo.FileDescription
-              "{0}|{1}|{2}|{3}|{4}" -f $_.Name, $dll.VersionInfo.FileDescription, $dll.VersionInfo.FileVersion, $orgversion, "(pending)"
+              $orgversion = (Get-VersionFromOrg -AssemblyName $dll.VersionInfo.FileDescription)
+              "{0}|{1}|{2}|{3}|{4}" -f $_.Name, $dll.VersionInfo.FileDescription, $dll.VersionInfo.FileVersion, ${orgversion}, "(pending)"
             }) -join "`n")
 
          ##Quality (defects by severity):
