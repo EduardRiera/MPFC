@@ -13,8 +13,15 @@ jobs:
     - name: checkout action
       uses: actions/checkout@v3
       
-    - name: set-pac-path
-      uses: ./.github/actions/set-pac-path
+    - name: download-pac-cli
+      if: false
+      uses: microsoft/powerplatform-actions/who-am-i@v0
+
+    - name: set-pac-cli-path
+      shell: pwsh
+      run: |
+        $pacPath = (Resolve-Path -Path "..\..\_actions\microsoft\powerplatform-actions\v0\dist\pac\tools").Path
+        "$pacPath" >> $env:GITHUB_PATH
 
     - name: test
       env:
