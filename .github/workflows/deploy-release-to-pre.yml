@@ -66,7 +66,7 @@ jobs:
       with:
         # Path to SARIF file relative to the root of the repository
         sarif_file: check-solution-log
-        category: powerplatform-check
+        category: test-check
         
     - name: update-release-notes
       shell: powershell
