@@ -138,8 +138,10 @@ jobs:
       env:
         GH_TOKEN: ${{ github.token }}      
       run: |
-         #Generar informe
-         function Get-PluginDllFromOrg {
+         
+         pac auth create -u ${{vars.ENVIRONMENT_URL}} -id ${{vars.CLIENT_ID}} -cs ${{secrets.CLIENT_SECRET}}  
+         
+         function Get-VersionFromOrg {
          param (        
             [string]$AssemblyName
          )
@@ -154,11 +156,10 @@ jobs:
             </entity>
          </fetch>
          "@
-         $plugin = pac org fetch --xml ($fetchXML -replace "`n", "") | Select-Object -Skip 4 | ConvertFrom-String -PropertyNames name, version, guid
-         return $plugin
+         $plugin = pac org fetch --xml ($fetchXML -replace "`n", "") | Select-Object -Skip 4 | ConvertFrom-String -PropertyNames version
+         return $plugin.version
          }
 
-         $login = pac auth create -u ${{vars.ENVIRONMENT_URL}} -id ${{vars.CLIENT_ID}} -cs ${{secrets.CLIENT_SECRET}}  
 
          $markdown = @"
          # Release ${{github.ref_name}}
@@ -169,9 +170,8 @@ jobs:
          $((Get-ChildItem -Path "${{vars.SOLUTION_DETAIL_FOLDER}}/${{vars.SOLUTION_NAME}}/PluginAssemblies" -Recurse -Filter *.dll | 
             ForEach-Object {
               $dll = Get-ItemProperty -Path $_.FullName -Name VersionInfo
-              $predll = Get-PluginDllFromOrg -AssemblyName $dll.VersionInfo.FileDescription
-              Write-Information $predll
-              "{0}|{1}|{2}|{3}|{4}" -f $_.Name, $dll.VersionInfo.FileDescription, $dll.VersionInfo.FileVersion, $($predll.version), "(pending)"
+              $orgversion = Get-VersionFromOrg -AssemblyName $dll.VersionInfo.FileDescription
+              "{0}|{1}|{2}|{3}|{4}" -f $_.Name, $dll.VersionInfo.FileDescription, $dll.VersionInfo.FileVersion, $orgversion, "(pending)"
             }) -join "`n")
 
          ##Quality (defects by severity):
