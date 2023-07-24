@@ -151,11 +151,12 @@ jobs:
             </entity>
          </fetch>
          "@
-         pac org fetch --xml ($fetchXML -replace "`n", "") | Select-Object -Skip 4 | ConvertFrom-String -PropertyNames name, version, guid
+         $predll = pac org fetch --xml ($fetchXML -replace "`n", "") | Select-Object -Skip 4 | ConvertFrom-String -PropertyNames name, version, guid
+         return $predll
          }
-         
-         dir check-solution-log
-         $summary = jq '.runs[].results | group_by(.properties.severity) | map({key: .[0].properties.severity, value: length}) | from_entries'  check-solution-log\*.sarif
+
+         $login = pac auth create -u ${{vars.ENVIRONMENT_URL}} -id ${{vars.CLIENT_ID}} -cs ${{secrets.CLIENT_SECRET}}  
+         $summary = jq '.runs[].results | group_by(.properties.severity) | map({key: .[0].properties.severity, value: length}) | from_entries'  ./check-solution-log/*.sarif
 
          $markdown = @"
          # Release ${{github.ref_name}}
@@ -163,7 +164,6 @@ jobs:
          ## Included Plugins
          Fichero | Nombre | Version | PRE | PRO
          --- | --- | --- | --- | ---
-         $login = pac auth create -u ${{vars.ENVIRONMENT_URL}} -id ${{vars.CLIENT_ID}} -cs ${{secrets.CLIENT_SECRET}}  
          $((Get-ChildItem -Path "${{vars.SOLUTION_DETAIL_FOLDER}}/${{vars.SOLUTION_NAME}}/PluginAssemblies" -Recurse -Filter *.dll | 
             ForEach-Object {
               $dll = Get-ItemProperty -Path $_.FullName -Name VersionInfo
