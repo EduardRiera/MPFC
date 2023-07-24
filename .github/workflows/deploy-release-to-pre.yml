@@ -31,6 +31,7 @@ jobs:
         tenant-id: ${{vars.TENANT_ID}}
 
     - name: check-unmanaged-solution action
+      id: check-solution
       uses: microsoft/powerplatform-actions/check-solution@v0
       if: ${{vars.FLAGS_CHECK == 1}}
       with:
@@ -43,6 +44,9 @@ jobs:
         checker-logs-artifact-name: check-solution-log
         fail-on-analysis-error: false
 
+    - name: check-output
+      run: echo "${{ toJson(steps.check-solution.outputs) }}"
+      
     - name: download-log
       uses: actions/download-artifact@v2
       if: ${{vars.FLAGS_CHECK == 1}}
