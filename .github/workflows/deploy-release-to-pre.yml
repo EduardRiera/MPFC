@@ -117,6 +117,7 @@ jobs:
 
   deploy-release-to-pre:
     runs-on: windows-latest
+    needs: [update-release-notes]
     environment: PRE        
 
     steps:
