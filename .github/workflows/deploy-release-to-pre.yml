@@ -139,12 +139,25 @@ jobs:
          # Release ${{github.ref_name}}
          
          ## Included Plugins
-         Fichero | Nombre | Version 
-         --- | --- | ---
+         Fichero | Nombre | Version | PRE | PRO
+         --- | --- | --- | --- | ---
+         $login = pac auth create -u ${{vars.ENVIRONMENT_URL}} -id ${{vars.CLIENT_ID}} -cs ${{secrets.CLIENT_SECRET}}  
          $((Get-ChildItem -Path "${{vars.SOLUTION_DETAIL_FOLDER}}/${{vars.SOLUTION_NAME}}/PluginAssemblies" -Recurse -Filter *.dll | 
             ForEach-Object {
               $dll = Get-ItemProperty -Path $_.FullName -Name VersionInfo
-              "{0}|{1}|{2}" -f $_.Name, $dll.VersionInfo.InternalName, $dll.VersionInfo.FileVersion
+              $fetchXML = @"
+              <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+                <entity name="pluginassembly">
+                  <attribute name="name" />
+                  <attribute name="version" />
+                  <filter type="and">
+                    <condition attribute="name" operator="eq" value="$dll.VersionInfo.FileDescription" />
+                  </filter>
+                </entity>
+              </fetch>
+              "@
+              $predll = pac org fetch --xml ($fetchXML -replace "`n", "") | Select-Object -Skip 4 | ConvertFrom-String -PropertyNames version
+              "{0}|{1}|{2}|{3}|{4}" -f $_.Name, $dll.VersionInfo.FileDescription, $dll.VersionInfo.FileVersion, $predll.version, "(pending)"
             }) -join "`n")
          
          Installed on ${{env.pre-tag}} with (Backup=${{vars.FLAGS_BACKUP}}, Solution=${{vars.FLAGS_SOLUTION}}, Portal=${{vars.FLAGS_PORTAL}}, Data=${{vars.FLAGS_DATA}}) by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
