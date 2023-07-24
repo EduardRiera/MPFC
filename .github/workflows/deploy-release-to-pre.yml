@@ -159,7 +159,10 @@ jobs:
               $predll = pac org fetch --xml ($fetchXML -replace "`n", "") | Select-Object -Skip 4 | ConvertFrom-String -PropertyNames version
               "{0}|{1}|{2}|{3}|{4}" -f $_.Name, $dll.VersionInfo.FileDescription, $dll.VersionInfo.FileVersion, $predll.version, "(pending)"
             }) -join "`n")
-         
+
+         $summary = jq '.runs[].results | group_by(.properties.severity) | map({key: .[0].properties.severity, value: length}) | from_entries'  check-solution-log\*_pfcPFCDataModel.sarif
+
+
          Installed on ${{env.pre-tag}} with (Backup=${{vars.FLAGS_BACKUP}}, Solution=${{vars.FLAGS_SOLUTION}}, Portal=${{vars.FLAGS_PORTAL}}, Data=${{vars.FLAGS_DATA}}) by [run ${{github.run_id}}](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})
          "@
 
