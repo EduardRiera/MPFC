@@ -83,49 +83,49 @@ jobs:
         sarif_file: check-solution-log
         ref: refs/heads/main
         sha: ${{github.sha}}
-        
-    - name: update-release-notes
-      shell: powershell
+
+    - name: set-plugin-report
+      if: ${{vars.FLAGS_CHECK == 1}}
+      run: |
+         #ens connectem a preproduccio    
+         pac auth create -u ${{vars.ENVIRONMENT_URL}} -id ${{vars.CLIENT_ID}} -cs ${{secrets.CLIENT_SECRET}} -t ${{vars.TENANT_ID}}
+
+         #enviem la taula en format markdown en la variable pluginreport
+         echo 'pluginreport<<EOF' >> $env:GITHUB_ENV
+         echo 'Fichero | Nombre | Version | PRE | PRO' >> $env:GITHUB_ENV
+         echo '--- | --- | --- | --- | ---' >> $env:GITHUB_ENV
+         #A cada dll de PluginAssemblies la anotem i la busquem al entorn de preproduccio
+         (Get-ChildItem -Path "${{vars.SOLUTION_DETAIL_FOLDER}}/${{vars.SOLUTION_NAME}}/PluginAssemblies" -Recurse -Filter *.dll | 
+            ForEach-Object {
+              #Obtenim la dll
+              $dll = Get-ItemProperty -Path $_.FullName -Name VersionInfo
+              $fetchXML = @"
+              <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+                 <entity name="pluginassembly">
+                 <attribute name="name" />
+                 <attribute name="version" />
+                 <filter type="and">
+                     <condition attribute="name" operator="eq" value="$dll.VersionInfo.FileDescription" />
+                 </filter>
+                 </entity>
+              </fetch>
+              "@
+              $orgversion = pac org fetch --xml ($fetchXML -replace "`n", "") | Select-Object -Skip 4 | ConvertFrom-String -PropertyNames name, version
+              echo "$_.Name|$dll.VersionInfo.FileDescription|$dll.VersionInfo.FileVersion|$orgversion.version|(pending)"  >> $env:GITHUB_ENV
+            })
+         echo 'EOF' >> $env:GITHUB_ENV
+
+    - name: create-release-notes
       env:
         GH_TOKEN: ${{ github.token }}      
       run: |
-         
-         pac auth create -u ${{vars.ENVIRONMENT_URL}} -id ${{vars.CLIENT_ID}} -cs ${{secrets.CLIENT_SECRET}} -t ${{vars.TENANT_ID}}
-         
-         function Get-VersionFromOrg {
-         param (        
-            [string]$AssemblyName
-         )
-         $fetchXML = @"
-         <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
-            <entity name="pluginassembly">
-            <attribute name="name" />
-            <attribute name="version" />
-            <filter type="and">
-                <condition attribute="name" operator="eq" value="$AssemblyName" />
-            </filter>
-            </entity>
-         </fetch>
-         "@
-         $plugin = pac org fetch --xml ($fetchXML -replace "`n", "") | Select-Object -Skip 4 | ConvertFrom-String -PropertyNames name, version
-         return $plugin
-         }
-
-
          $markdown = @"
          # Release ${{github.ref_name}}
-         
-         ## Included Plugins
-         Fichero | Nombre | Version | PRE | PRO
-         --- | --- | --- | --- | ---
-         $((Get-ChildItem -Path "${{vars.SOLUTION_DETAIL_FOLDER}}/${{vars.SOLUTION_NAME}}/PluginAssemblies" -Recurse -Filter *.dll | 
-            ForEach-Object {
-              $dll = Get-ItemProperty -Path $_.FullName -Name VersionInfo
-              $orgdll = (Get-VersionFromOrg -AssemblyName $dll.VersionInfo.FileDescription)
-              "{0}|{1}|{2}|{3}|{4}" -f $_.Name, $dll.VersionInfo.FileDescription, $dll.VersionInfo.FileVersion, $orgversion.version, "(pending)"
-            }) -join "`n")
 
-         ##Quality (defects by severity):
+         ## Included Plugins
+         ${{env.pluginreport}}
+
+         ## Quality (alertes):
          ${{env.qualityresults}}
          "@
 
