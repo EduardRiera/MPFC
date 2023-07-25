@@ -58,12 +58,24 @@ jobs:
       run: |
         $sarif = Get-ChildItem -Path "check-solution-log" -Filter "*.sarif" -Recurse | Select-Object -First 1
 
+        #fitxer auxiliar per tenir les alertes agrupades per gravetat, nivell i norma
         $sarif | Get-Content | jq "[.runs[0].results | group_by(.ruleId)[] | group_by(.level)[] | group_by(.properties.severity)[] | {Key: .[0].ruleId, Level: .[0].level, Severity: .[0].properties.severity, Count: length}]" | Out-File -Encoding ascii results.json
+        #fitxer auxiliar per tenir la categoria de cada norma
         $sarif | Get-Content | jq "[.runs[0].tool.driver.rules | group_by(.id)[] | group_by(.properties.primaryCategory)[] | {Key: .[0].id, Category: .[0].properties.primaryCategory}]" | Out-File -Encoding ascii rules.json
-
-        $summary = jq -s '[.[0] + .[1] | group_by(.Key)[] | {Key: .[0].Key, Level: .[0].Level, Severity: .[0].Severity, Category: .[1].Category, Count: .[0].Count }] | map(select(.Count != null))' results.json rules.json
+        #fitxer auxiliar amb el join entre els dos fitxers eliminant els que no tenen alertes 
+        jq -s '[.[0] + .[1] | group_by(.Key)[] | {Key: .[0].Key , Severity: .[0].Severity, Level: .[0].Level,  Category: .[1].Category, Count: .[0].Count }] | map(select(.Count != null))' results.json rules.json | Out-File -Encoding ascii joined.json
         
-        echo "qualityresults=$summary" >> $env:GITHUB_ENV
+        #table es un array de arrays representant les dades de la taula ordenades i agrupades per gravetat, nivell i categoria
+        $table = jq "[group_by(.Severity)[] | group_by(.Level)[] | group_by(.Category)[] | [.[0].Severity, .[0].Level,  .[0].Category, (map(.Count) | add)]] | sort_by(.[0], .[1] , -.[3])" joined.json | ConvertFrom-Json
+
+        #convertim la taula a format markdown
+        $mdtable = @"
+        Gravetat|Nivell|Categoria|Alertes
+        ---|---|---|---
+        $(($table | ForEach-Object {$_ -join '|'}) -join "`n")
+        "@
+
+        echo "qualityresults=$mdtable" >> $env:GITHUB_ENV
 
     - name: upload-sariftogithub
       uses: github/codeql-action/upload-sarif@v2
