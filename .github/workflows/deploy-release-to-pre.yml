@@ -68,14 +68,12 @@ jobs:
         #table es un array de arrays representant les dades de la taula ordenades i agrupades per gravetat, nivell i categoria
         $table = jq "[group_by(.Severity)[] | group_by(.Level)[] | group_by(.Category)[] | [.[0].Severity, .[0].Level,  .[0].Category, (map(.Count) | add)]] | sort_by(.[0], .[1] , -.[3])" joined.json | ConvertFrom-Json
 
-        #convertim la taula a format markdown
-        $mdtable = @"
-        Gravetat|Nivell|Categoria|Alertes
-        ---|---|---|---
-        $(($table | ForEach-Object {$_ -join '|'}) -join "`n")
-        "@
-
-        echo "qualityresults=$mdtable" >> $env:GITHUB_ENV
+        #enviem la taula en format markdown en la variable qualityresults
+        echo 'qualityresults<<EOF' >> $env:GITHUB_ENV
+        echo 'Gravetat|Nivell|Categoria|Alertes' >> $env:GITHUB_ENV
+        echo '---|---|---|---' >> $env:GITHUB_ENV
+        $table | ForEach-Object {$_ -join '|' >> $env:GITHUB_ENV }
+        echo 'EOF' >> $env:GITHUB_ENV
 
     - name: upload-sariftogithub
       uses: github/codeql-action/upload-sarif@v2
