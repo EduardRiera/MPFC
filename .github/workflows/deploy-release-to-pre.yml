@@ -57,7 +57,12 @@ jobs:
       if: ${{vars.FLAGS_CHECK == 1}}
       run: |
         $sarif = Get-ChildItem -Path "check-solution-log" -Filter "*.sarif" -Recurse | Select-Object -First 1
-        $summary = $sarif | Get-Content | jq ".runs[].results | group_by(.properties.severity) | map({key: .[0].properties.severity, value: length}) | from_entries"
+
+        $sarif | Get-Content | jq "[.runs[0].results | group_by(.ruleId)[] | group_by(.level)[] | group_by(.properties.severity)[] | {Key: .[0].ruleId, Level: .[0].level, Severity: .[0].properties.severity, Count: length}]" | Out-File -Encoding ascii results.json
+        $sarif | Get-Content | jq "[.runs[0].tool.driver.rules | group_by(.id)[] | group_by(.properties.primaryCategory)[] | {Key: .[0].id, Category: .[0].properties.primaryCategory}]" | Out-File -Encoding ascii rules.json
+
+        $summary = jq -s '[.[0] + .[1] | group_by(.Key)[] | {Key: .[0].Key, Level: .[0].Level, Severity: .[0].Severity, Category: .[1].Category, Count: .[0].Count }] | map(select(.Count != null))' results.json rules.json
+        
         echo "qualityresults=$summary" >> $env:GITHUB_ENV
 
     - name: upload-sariftogithub
@@ -66,7 +71,8 @@ jobs:
       with:
         # Path to SARIF file relative to the root of the repository
         sarif_file: check-solution-log
-        category: test-check
+        ref: refs/heads/main
+        sha: ${{github.sha}}
         
     - name: update-release-notes
       shell: powershell
