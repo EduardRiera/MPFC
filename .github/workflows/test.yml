@@ -7,50 +7,34 @@ permissions:
 jobs:
   deploy-pre-to-pro:
     runs-on: windows-latest
+    environment: INT         
 
     steps:
 
     - name: checkout action
       uses: actions/checkout@v3
       
-    - name: download-pac-cli
-      if: false
-      uses: microsoft/powerplatform-actions/who-am-i@v0
+    - name: login-azure
+      uses: Azure/login@v1
+      if: ${{vars.FLAGS_AZURE == 1}}
+      with:
+        creds: |
+          {
+            clientId:${{vars.CLIENT_ID}},
+            clientSecret:${{secrets.CLIENT_SECRET}},
+            subscriptionId:b101f93a-d55e-49c9-b40d-60175ed2d684,
+            tenantId:${{vars.TENANT_ID}}
+          }
 
-    - name: set-pac-cli-path
-      shell: pwsh
-      run: |
-        $pacPath = (Resolve-Path -Path "..\..\_actions\microsoft\powerplatform-actions\v0\dist\pac\tools").Path
-        "$pacPath" >> $env:GITHUB_PATH
+    # Deploy ARM template
+    - name: check-arm-deploy
+      if: ${{vars.FLAGS_AZURE == 1}}
+      uses: azure/arm-deploy@v1
+      with:
+        deploymentName: "Deploy eco-mpfc from github"
+        subscriptionId: b101f93a-d55e-49c9-b40d-60175ed2d684,
+        resourceGroupName: "DefaultResourceGroup-WEU"
+        template: Azure/eco-mpfc/template.json
+        parameters: Azure/eco-mpfc/parameters.json
+        additionalArguments: "--what-if"
 
-    - name: test
-      env:
-        preproduccionUrl: "https://integracio-eco-mpfc.crm4.dynamics.com/"
-        sourceUser: "GGMZNT0003@gencat.cat"
-        sourcePassword: "Avanade2023$"
-      run: |
-        pac auth create -u $env:preproduccionUrl -un $env:sourceUser -p $env:sourcePassword
-        pac org fetch --xml "<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false"><entity name="pluginassembly"><attribute name="name" /><attribute name="version" /><attribute name="culture" /><attribute name="publickeytoken" /><attribute name="sourcetype" /><attribute name="isolationmode" /></entity></fetch>"        
-
-    - name: test
-      env:
-        preproduccioUrl: "https://integracio-eco-mpfc.crm4.dynamics.com/"
-      run: |
-        pac org who
-        echo GITHUB:
-        echo "${{ toJson(github) }}"
-        echo JOB:
-        echo "${{ toJson(job) }}"
-        echo STEPS:
-        echo "${{ toJson(steps) }}"
-        echo RUNNER:
-        echo "${{ toJson(runner) }}"
-        echo ENV:
-        echo "${{ toJson(env) }}"
-        echo VARS:
-        echo "${{ toJson(vars) }}"
-        echo INPUTS:
-        echo "${{ toJson(inputs) }}"
-        echo GITHUB_PATH:
-        echo "$env:GITHUB_PATH"
-     
