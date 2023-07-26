@@ -92,6 +92,29 @@ jobs:
           $sarif=Get-Item -Path ".\check-solution-log\*.sarif"
           gh release upload ${{github.ref_name}} $sarif.FullName 
 
+    - name: login-azure
+      uses: Azure/login@v1
+      if: ${{vars.FLAGS_AZURE == 1}}
+      with:
+        creds: |
+          {
+            clientId:${{vars.CLIENT_ID}},
+            clientSecret:${{secrets.CLIENT_SECRET}},
+            subscriptionId:${{vars.SUBSCRIPTION_ID}},
+            tenantId:${{vars.TENANT_ID}}
+          }
+
+    # Deploy ARM template
+    - name: check-arm-deploy
+      if: ${{vars.FLAGS_AZURE == 1}}
+      uses: azure/arm-deploy@v1
+      with:
+        deploymentName: "Deploy eco-mpfc from github"
+        subscriptionId: ${{vars.SUBSCRIPTION_ID}},
+        resourceGroupName: ${{ vars.AZURE_RG }}
+        template: Azure/eco-mpfc/template.json
+        parameters: Azure/eco-mpfc/parameters.json
+        additionalArguments: "--what-if"
 
     - name: set-plugin-report
       run: |
