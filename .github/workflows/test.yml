@@ -16,7 +16,6 @@ jobs:
       
     - name: login-azure
       uses: Azure/login@v1
-      if: ${{vars.FLAGS_AZURE == 1}}
       with:
         creds: |
           {
@@ -28,7 +27,6 @@ jobs:
 
     # Deploy ARM template
     - name: check-arm-deploy
-      if: ${{vars.FLAGS_AZURE == 1}}
       uses: azure/arm-deploy@v1
       with:
         deploymentName: "Deploy eco-mpfc from github"
