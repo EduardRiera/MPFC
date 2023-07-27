@@ -27,6 +27,7 @@ jobs:
 
     # Deploy ARM template
     - name: check-arm-deploy
+      id: check
       uses: azure/arm-deploy@v1
       with:
         deploymentName: "Deploy eco-mpfc from github"
@@ -36,3 +37,21 @@ jobs:
         parameters: Azure/eco-mpfc/parameters.json
         additionalArguments: "--what-if"
 
+
+    - name: what-if-action
+      id: whatif
+      uses: Azure/deployment-what-if-action@v1.0.0
+      with:
+        subscription: b101f93a-d55e-49c9-b40d-60175ed2d684,
+        resourceGroup: "DefaultResourceGroup-WEU"
+        templateFile: Azure/eco-mpfc/template.json
+        parametersFile: Azure/eco-mpfc/parameters.json
+        
+    - name: run-outputs
+      run: |
+        echo "check-arm-deploy:"
+        ${{tojson(steps.check.outputs)}}
+        echo "what-if-action:"
+        ${{tojson(steps.whatif.outputs)}}
+        
+        
